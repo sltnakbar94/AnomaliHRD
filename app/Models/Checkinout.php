@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReportAbsence extends Model
+class Checkinout extends Model
 {
-    use CrudTrait;
+    use HasFactory, CrudTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -15,10 +16,10 @@ class ReportAbsence extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'userinfo';
-    protected $primaryKey = 'userid';
+    protected $table = 'checkinout';
+    // protected $primaryKey = 'userid';
     // public $timestamps = false;
-    protected $guarded = ['userid'];
+    protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -34,21 +35,6 @@ class ReportAbsence extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function date()
-    {
-        return $this->hasMany(Checkinout::class, 'userid', 'userid')->where('checktime', '=', today()->format('d-m-Y'));
-    }
-
-    public function CheckIn()
-    {
-        return $this->hasMany(Checkinout::class, 'userid', 'userid')->whereDate('checktime', today())->orderBy('checktime', 'asc');
-    }
-
-    public function CheckOut()
-    {
-        return $this->hasMany(Checkinout::class, 'userid', 'userid')->whereDate('checktime', today())->orderBy('checktime', 'desc');
-    }
 
     /*
     |--------------------------------------------------------------------------
