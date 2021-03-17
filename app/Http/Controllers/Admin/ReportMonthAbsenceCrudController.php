@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ReportAbsenceRequest;
-use App\Models\Checkinout;
+use App\Http\Requests\ReportMonthAbsenceRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ReportAbsenceCrudController
+ * Class ReportMonthAbsenceCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ReportAbsenceCrudController extends CrudController
+class ReportMonthAbsenceCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,9 +26,10 @@ class ReportAbsenceCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ReportAbsence::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/reportabsence');
-        CRUD::setEntityNameStrings('Absensi Harian', 'Absensi Harian');
+        CRUD::setModel(\App\Models\ReportMonthAbsence::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/reportmonthabsence');
+        CRUD::setEntityNameStrings('reportmonthabsence', 'report_month_absences');
+        // $this->crud->setListView('absence.absence');
     }
 
     /**
@@ -44,46 +44,37 @@ class ReportAbsenceCrudController extends CrudController
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
         $this->crud->removeButton('show');
-
-        // $this->crud->addFilter([
-        //     'type'  => 'date',
-        //     'name'  => 'date',
-        //     'label' => 'Tanggal',
-        //     'value' => today()
-        //   ],
-        // false,
-        // function ($value) {
-        //     $this->crud->query->select(['checkinout.*', 'userinfo.*'])->distinct('checkinout.check')->join('checkinout', 'checkinout.userid', '=', 'userinfo.userid')->whereRaw('DATE(checktime) = "'. $value .'"');
-        // });
+        $this->crud->query->join('userinfo', 'userinfo.userid', '=', 'checkinout.userid');
+        // $this->crud->groupBy(date('checktime'));
 
         $this->crud->addColumn([
-            'name' => 'badgenumber', // The db column name
-            'label' => "Nomor", // Table column heading
-            'type' => 'Text'
+            'label'     => 'Nomor', // Table column heading
+            'type'      => 'text',
+            'name'      => 'badgenumber', // the column that contains the ID of that connected entity;
         ]);
 
         $this->crud->addColumn([
-            'name' => 'name', // The db column name
-            'label' => "Nama", // Table column heading
-            'type' => 'Text'
-        ]);
-
-        $this->crud->addColumn([
-            'label'     => 'Departemen', // Table column heading
-            'type'      => 'select',
-            'name'      => 'defaultdeptid', // the column that contains the ID of that connected entity;
-            'entity'    => 'department', // the method that defines the relationship in your Model
-            'attribute' => 'DeptName', // foreign key attribute that is shown to user
-            'model'     => "App\Models\Department", // foreign key model
+            'label'     => 'Nama', // Table column heading
+            'type'      => 'text',
+            'name'      => 'name', // the column that contains the ID of that connected entity;
         ]);
 
         $this->crud->addColumn([
             'label'     => 'Tanggal', // Table column heading
-            'type'      => 'select',
-            'name'      => 'userid', // the column that contains the ID of that connected entity;
-            'entity'    => 'date', // the method that defines the relationship in your Model
-            'attribute' => 'checktime', // foreign key attribute that is shown to user
-            'model'     => "App\Models\Checkinout", // foreign key model
+            'type'      => 'date',
+            'name'      => 'checktime', // the column that contains the ID of that connected entity;
+        ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tanggal', // Table column heading
+            'type'      => 'date',
+            'name'      => 'checktime', // the column that contains the ID of that connected entity;
+        ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tanggal', // Table column heading
+            'type'      => 'date',
+            'name'      => 'checktime', // the column that contains the ID of that connected entity;
         ]);
 
         $this->crud->addColumn([
@@ -106,6 +97,7 @@ class ReportAbsenceCrudController extends CrudController
 
         $this->crud->enableExportButtons();
         $this->crud->enableResponsiveTable();
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -121,7 +113,7 @@ class ReportAbsenceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ReportAbsenceRequest::class);
+        CRUD::setValidation(ReportMonthAbsenceRequest::class);
 
         CRUD::setFromDb(); // fields
 
