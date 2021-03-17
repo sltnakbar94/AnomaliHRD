@@ -71,7 +71,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>Anomali </b>HRD',
+    'project_logo'   => '<img src="/logo.png" width="200">',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
