@@ -28,7 +28,7 @@ class ReportMonthAbsenceCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ReportMonthAbsence::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/reportmonthabsence');
-        CRUD::setEntityNameStrings('reportmonthabsence', 'report_month_absences');
+        CRUD::setEntityNameStrings('reportmonthabsence', 'Report Absen Bulanan');
         // $this->crud->setListView('absence.absence');
     }
 
