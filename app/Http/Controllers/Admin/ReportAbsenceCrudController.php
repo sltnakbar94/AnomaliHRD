@@ -29,7 +29,7 @@ class ReportAbsenceCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ReportAbsence::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/reportabsence');
-        CRUD::setEntityNameStrings('reportabsence', 'report_absences');
+        CRUD::setEntityNameStrings('Absensi Harian', 'Absensi Harian');
     }
 
     /**
@@ -44,9 +44,17 @@ class ReportAbsenceCrudController extends CrudController
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
         $this->crud->removeButton('show');
-        $this->crud->query->join('checkinout', 'checkinout.userid', '=', 'userinfo.userid')->distinct('userinfo.userid')->whereDate('checktime', today());
-        $this->crud->addClause('whereDate', 'checktime', today());
 
+        // $this->crud->addFilter([
+        //     'type'  => 'date',
+        //     'name'  => 'date',
+        //     'label' => 'Tanggal',
+        //     'value' => today()
+        //   ],
+        // false,
+        // function ($value) {
+        //     $this->crud->query->select(['checkinout.*', 'userinfo.*'])->distinct('checkinout.check')->join('checkinout', 'checkinout.userid', '=', 'userinfo.userid')->whereRaw('DATE(checktime) = "'. $value .'"');
+        // });
 
         $this->crud->addColumn([
             'name' => 'badgenumber', // The db column name
@@ -61,34 +69,40 @@ class ReportAbsenceCrudController extends CrudController
         ]);
 
         $this->crud->addColumn([
-            'name' => 'checktime', // The db column name
-            'label' => "Tanggal", // Table column heading
-            'type' => 'date'
+            'label'     => 'Departemen', // Table column heading
+            'type'      => 'select',
+            'name'      => 'defaultdeptid', // the column that contains the ID of that connected entity;
+            'entity'    => 'department', // the method that defines the relationship in your Model
+            'attribute' => 'DeptName', // foreign key attribute that is shown to user
+            'model'     => "App\Models\Department", // foreign key model
         ]);
 
         $this->crud->addColumn([
-            'name' => 'checktime', // The db column name
-            'label' => "Tanggal", // Table column heading
-            'type' => 'date'
+            'label'     => 'Tanggal', // Table column heading
+            'type'      => 'select',
+            'name'      => 'userid', // the column that contains the ID of that connected entity;
+            'entity'    => 'date', // the method that defines the relationship in your Model
+            'attribute' => 'checktime', // foreign key attribute that is shown to user
+            'model'     => "App\Models\Checkinout", // foreign key model
         ]);
 
         $this->crud->addColumn([
             'label'     => 'Jam Masuk', // Table column heading
             'type'      => 'select',
-            'name'      => 'userinfo.userid', // the column that contains the ID of that connected entity;
+            // 'name'      => 'userid', // the column that contains the ID of that connected entity;
             'entity'    => 'CheckIn', // the method that defines the relationship in your Model
             'attribute' => 'checktime', // foreign key attribute that is shown to user
-            'model'     => "App\Models\Checkinout", // foreign key model
+            'model'     => "App\Models\CheckIn", // foreign key model
         ]);
 
-        // $this->crud->addColumn([
-        //     'label'     => 'Jam Keluar', // Table column heading
-        //     'type'      => 'select',
-        //     'name'      => 'userinfo.userid', // the column that contains the ID of that connected entity;
-        //     'entity'    => 'CheckOut', // the method that defines the relationship in your Model
-        //     'attribute' => 'checktime', // foreign key attribute that is shown to user
-        //     'model'     => "App\Models\Checkinout",
-        // ]);
+        $this->crud->addColumn([
+            'label'     => 'Jam Keluar', // Table column heading
+            'type'      => 'select',
+            // 'name'      => 'userid', // the column that contains the ID of that connected entity;
+            'entity'    => 'CheckOut', // the method that defines the relationship in your Model
+            'attribute' => 'checktime', // foreign key attribute that is shown to user
+            'model'     => "App\Models\CheckOut",
+        ]);
 
         $this->crud->enableExportButtons();
         /**

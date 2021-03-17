@@ -5,11 +5,16 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Checkinout extends Model
 {
     use HasFactory, CrudTrait;
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -22,7 +27,10 @@ class Checkinout extends Model
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
-    // protected $dates = [];
+    protected $datesFormat = 'Y-m-d';
+    // protected $casts = [
+    //     'checktime' => 'date',
+    // ];
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +55,10 @@ class Checkinout extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+    public function getChecktimeAttribute($value)
+    {
+        return $this->attributes['checktime'] = (new Carbon($value))->format('d-m-Y');
+    }
 
     /*
     |--------------------------------------------------------------------------
