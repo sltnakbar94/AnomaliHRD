@@ -60,6 +60,11 @@ class Checkinout extends Model
         return $this->attributes['checktime'] = (new Carbon($value))->format('d-m-Y');
     }
 
+    public function getAttendanceAttribute($value)
+    {
+        dd($this->attributes['attendance'] = $value->selectRaw("count(distinct(date(checktime))) as attendance"));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

@@ -15,10 +15,10 @@ class ReportMonthAbsence extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'checkinout';
-    // protected $primaryKey = 'id';
+    protected $table = 'userinfo';
+    protected $primaryKey = 'userid';
     // public $timestamps = false;
-    protected $guarded = ['id'];
+    protected $guarded = ['userid'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -34,9 +34,15 @@ class ReportMonthAbsence extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function user()
+
+    public function checktime()
     {
-        return $this->belongsTo(Userinfo::class, 'userid', 'userid');
+        return $this->hasMany(Checkinout::class, 'userid', 'userid');
+    }
+
+    public function date()
+    {
+        return $this->hasOne(Checkinout::class, 'userid', 'userid');
     }
 
     public function CheckIn()
@@ -47,6 +53,16 @@ class ReportMonthAbsence extends Model
     public function CheckOut()
     {
         return $this->hasOne(CheckOut::class, 'userid', 'userid')->orderBy('checktime', 'desc');
+    }
+
+    public function department()
+    {
+        return $this->hasOne(Department::class, 'DeptID', 'defaultdeptid');
+    }
+
+    public function attendance()
+    {
+        return $this->hasMany(Department::class, 'DeptID', 'defaultdeptid');
     }
 
     /*
