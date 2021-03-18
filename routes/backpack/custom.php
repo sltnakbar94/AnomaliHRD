@@ -18,4 +18,5 @@ Route::group([
     Route::crud('user', 'UserCrudController');
     Route::crud('reportabsence', 'ReportAbsenceCrudController');
     Route::crud('reportmonthabsence', 'ReportMonthAbsenceCrudController');
+    Route::post('reportmonthabsence/filter', 'ReportMonthAbsenceCrudController@filter');
 }); // this should be the absolute last line of this file

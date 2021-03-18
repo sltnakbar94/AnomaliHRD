@@ -62,7 +62,7 @@ class Checkinout extends Model
 
     public function getAttendanceAttribute($value)
     {
-        dd($this->attributes['attendance'] = $value->selectRaw("count(distinct(date(checktime))) as attendance"));
+        return $this->attributes['attendance'] = $value->selectRaw("count(distinct(date(checktime))) as jumlah")->select('count(distinct(date(checktime)))');
     }
 
     /*

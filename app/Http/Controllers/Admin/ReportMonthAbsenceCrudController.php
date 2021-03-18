@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ReportMonthAbsenceRequest;
 use App\Models\Checkinout;
+use App\Models\Department;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class ReportMonthAbsenceCrudController
@@ -30,7 +33,7 @@ class ReportMonthAbsenceCrudController extends CrudController
         CRUD::setModel(\App\Models\ReportMonthAbsence::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/reportmonthabsence');
         CRUD::setEntityNameStrings('Report Absen Bulanan', 'Report Absen Bulanan');
-        $this->crud->setListView('absence.listMonth');
+        // $this->crud->setListView('absence.listMonth');
     }
 
     /**
@@ -68,12 +71,16 @@ class ReportMonthAbsenceCrudController extends CrudController
             'type' => 'Text'
         ]);
 
-        // $this->crud->addColumn([
-        //     // 'name' => 'name', // The db column name
-        //     'label' => "Kehadiran", // Table column heading
-        //     'type' => 'Text',
-        //     'value' => count(\App\Models\Checkinout::distinct(date('checktime'))->get())
-        // ]);
+        dd($this->crud->query->first()->attendance);
+        $this->crud->addColumn([
+            // run a function on the CRUD model and show its return value
+            // 'name'  => 'url',
+            'label' => 'Kehadiran', // Table column heading
+            'type'  => 'model_function',
+            'function_name' => 'attendance', // the method in your Model
+            // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+            // 'limit' => 100, // Limit the number of characters shown
+         ]);
 
         $this->crud->enableExportButtons();
         $this->crud->enableResponsiveTable();
@@ -113,5 +120,33 @@ class ReportMonthAbsenceCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function filter(Request $request)
+    {
+        if (!empty($request->month) && !empty($request->department)) {
+
+            $perusahaan = Department::where('DeptID', $request->department)->first();
+            $month = $request->month;
+            \Alert::add('success', 'Berhasil Filter Data ' . date('M Y', strtotime($request->month)) . ' dan ' . $perusahaan->DeptName)->flash();
+            return view(backpack_view('listMonth'), compact('month', 'perusahaan'));
+
+        } elseif (!empty($request->month) && empty($request->department)) {
+
+            $month = $request->month;
+            \Alert::add('success', 'Berhasil Filter Data ' . date('M Y', strtotime($request->month)))->flash();
+            return redirect('/admin/reportmonthabsence')->with(compact(['month']));
+
+        } elseif (empty($request->month) && !empty($request->department)) {
+
+            $perusahaan = Department::where('DeptID', $request->department)->first();
+            \Alert::add('success', 'Berhasil Filter Data ' . $perusahaan->DeptName)->flash();
+            return redirect('/admin/reportmonthabsence')->with(compact(['perusahaan']));
+
+        } else {
+
+            \Alert::add('danger', 'Gagal Filter Data')->flash();
+            return redirect()->back();
+        }
     }
 }
