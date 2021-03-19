@@ -43,7 +43,6 @@ class ReportMonthAbsenceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        // dd(Checkinout::selectRaw("count(distinct(date(checktime))) as attendance")->groupBy('userid')->get());
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
