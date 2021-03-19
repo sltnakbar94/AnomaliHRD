@@ -33,7 +33,6 @@ class ReportMonthAbsenceCrudController extends CrudController
         CRUD::setModel(\App\Models\ReportMonthAbsence::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/reportmonthabsence');
         CRUD::setEntityNameStrings('Report Absen Bulanan', 'Report Absen Bulanan');
-        // $this->crud->setListView('absence.listMonth');
     }
 
     /**
@@ -71,16 +70,14 @@ class ReportMonthAbsenceCrudController extends CrudController
             'type' => 'Text'
         ]);
 
-        dd($this->crud->query->first()->attendance);
         $this->crud->addColumn([
-            // run a function on the CRUD model and show its return value
-            // 'name'  => 'url',
-            'label' => 'Kehadiran', // Table column heading
-            'type'  => 'model_function',
-            'function_name' => 'attendance', // the method in your Model
-            // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-            // 'limit' => 100, // Limit the number of characters shown
-         ]);
+            'name'     => 'userid',
+            'label'    => 'Kehadiran',
+            'type'     => 'closure',
+            'function' => function($entry) {
+                return Checkinout::selectRaw("COUNT(DISTINCT(DATE(checktime))) as count")->where('userid', $entry->userid)->first()->count;
+            }
+        ]);
 
         $this->crud->enableExportButtons();
         $this->crud->enableResponsiveTable();
