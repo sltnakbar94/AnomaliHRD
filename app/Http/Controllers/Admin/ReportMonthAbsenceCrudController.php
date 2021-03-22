@@ -47,6 +47,21 @@ class ReportMonthAbsenceCrudController extends CrudController
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
         $this->crud->removeButton('show');
+        $this->crud->enableDetailsRow();
+        $this->crud->setDetailsRowView('month.detail');
+        // $this->crud->addFilter([
+        //     'type'  => 'date',
+        //     'name'  => 'date',
+        //     'label' => 'Date'
+        //   ],
+        //     false,
+        //   function ($value) { // if the filter is active, apply these constraints
+        //     // foreach (json_decode($values) as $key => $value) {
+        //     //     $this->crud->query = $this->crud->query->whereHas('tags', function ($query) use ($value) {
+        //     //         $query->where('tag_id', $value);
+        //     //     });
+        //     // }
+        //   });
 
         $this->crud->addColumn([
             'label'     => 'Departemen', // Table column heading
@@ -74,7 +89,7 @@ class ReportMonthAbsenceCrudController extends CrudController
             'label'    => 'Kehadiran',
             'type'     => 'closure',
             'function' => function($entry) {
-                return Checkinout::selectRaw("COUNT(DISTINCT(DATE(checktime))) as count")->where('userid', $entry->userid)->first()->count;
+                return $entry->attendance->count;
             }
         ]);
 

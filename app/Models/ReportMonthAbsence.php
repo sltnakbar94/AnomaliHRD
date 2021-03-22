@@ -62,7 +62,7 @@ class ReportMonthAbsence extends Model
 
     public function attendance()
     {
-        return $this->hasOne(Checkinout::class, 'userid', 'userid')->selectRaw("count(distinct(date(checktime)))");
+        return $this->hasOne(Checkinout::class, 'userid', 'userid')->selectRaw("count(distinct(date(checktime))) as count");
     }
 
     /*
