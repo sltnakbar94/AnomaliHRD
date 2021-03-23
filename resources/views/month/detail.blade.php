@@ -176,6 +176,7 @@
     <script>
         $(document).ready(function() {
             $('#tableDetailMonth').DataTable( {
+                "pageLength":-1,
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
