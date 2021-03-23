@@ -33,6 +33,7 @@ class ReportMonthAbsenceCrudController extends CrudController
         CRUD::setModel(\App\Models\ReportMonthAbsence::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/reportmonthabsence');
         CRUD::setEntityNameStrings('Report Absen Bulanan', 'Report Absen Bulanan');
+        $this->crud->setShowView('month.detail');
     }
 
     /**
@@ -46,9 +47,6 @@ class ReportMonthAbsenceCrudController extends CrudController
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
-        $this->crud->removeButton('show');
-        $this->crud->enableDetailsRow();
-        $this->crud->setDetailsRowView('month.detail');
         // $this->crud->addFilter([
         //     'type'  => 'date',
         //     'name'  => 'date',
