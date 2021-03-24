@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Role;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -21,7 +22,7 @@ class UserCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +34,7 @@ class UserCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -46,13 +47,13 @@ class UserCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -60,20 +61,64 @@ class UserCrudController extends CrudController
     {
         CRUD::setValidation(UserRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('email');
-        CRUD::field('password');
+        $this->crud->addFields([
+            [
+                'tab'   => 'Profile',
+                'name'  => 'name',
+                'label' => 'Nama',
+                'type'  => 'text',
+                'attributes' => [
+                    'required' => true,
+                ]
+            ],
+            [
+                'tab'   => 'Profile',
+                'name'  => 'email',
+                'label' => 'Email',
+                'type'  => 'email',
+                'attributes' => [
+                    'required' => true,
+                ]
+            ],
+            [
+                'tab'   => 'Profile',
+                'name'  => 'password',
+                'label' => 'Password',
+                'type'  => 'password',
+                'attributes' => [
+                    'required' => true,
+                ]
+            ],
+            [
+                'tab'   => 'Profile',
+                'name'  => 'password_confirmation',
+                'label' => 'Konfirmasi Password',
+                'type'  => 'password',
+                'attributes' => [
+                    'required' => true,
+                ]
+            ],
+            [   // select2_from_array
+                'tab'         => 'Profile',
+                'name'        => 'role',
+                'label'       => "Role",
+                'type'        => 'select2_from_array',
+                'options'     => Role::pluck('name', 'id'),
+                'allows_null' => false,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ],
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
