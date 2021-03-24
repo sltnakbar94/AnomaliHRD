@@ -16,6 +16,8 @@
     for($i=1; $i < $today->daysInMonth + 1; ++$i) {
         $dates[] = \Carbon\Carbon::createFromDate($today->year, $today->month, $i)->format('d-M-Y');
     }
+    $sum_hour = 0;
+    $sum_minute = 0;
 @endphp
 
 @section('header')
@@ -115,35 +117,47 @@
                                         @$hour = $t1->diffInHours($t2);
                                         @$minute = $t1->diffInMinutes($t2);
                                         @$second = $t1->diffInSeconds($t2);
+                                        $sum_hour += $hour;
+                                        $sum_minute += $minute;
                                     @endphp
-                                        <tr>
-                                            <td>
-                                                {{$key+1}}
-                                            </td>
-                                            <td>
-                                                {{$dayList[$day]}}
-                                            </td>
-                                            <td>
-                                                {{$date}}
-                                            </td>
-                                            <td>
-                                                {{@$masuk}}
-                                            </td>
-                                            <td>
-                                                {{@$pulang}}
-                                            </td>
-                                            <td>
-                                                {{date('H:i:s', (strtotime(@$pulang)-strtotime(@$masuk)))}}
-                                            </td>
-                                            <td>
-                                                {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
-                                            </td>
-                                            <td>
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            {{$key+1}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{$dayList[$day]}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{$date}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{@$masuk}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{@$pulang}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{date('H:i:s', (strtotime(@$pulang)-strtotime(@$masuk)))}}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
+                                        </td>
+                                        <td style="text-align: center;">
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $crud->entry->userid)->first()->jumlah}} Hari</td>
+                                        <td colspan="2" style="text-align: center;">Total Jam Kerja : {{floor(@$sum_minute/60)}} Jam {{(($sum_minute/60)-floor(@$sum_minute/60))*60}} Menit</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
