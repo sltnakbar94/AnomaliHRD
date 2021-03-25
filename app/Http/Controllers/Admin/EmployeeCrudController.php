@@ -89,7 +89,6 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        // dd($this->badgenumber());
         CRUD::setValidation(EmployeeRequest::class);
 
         $this->crud->addField([
@@ -160,6 +159,46 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(EmployeeRequest::class);
+
+        $this->crud->addField([
+            'label' => "Badgenumber",
+            'name'  => "badgenumber",
+            'type'  => 'text',
+            'attributes' => [
+                'readonly'    => 'readonly',
+            ]
+        ]);
+
+        $this->crud->addField([
+            'name' => 'defaultdeptid',
+            'label' => 'Departemen',
+            'type' => 'select2_from_array',
+            'options' => Department::pluck('DeptName', 'DeptID'),
+            'allows_null' => true,
+        ]);
+
+        $this->crud->addField([
+            'label' => "Nama",
+            'name'  => "name",
+            'type'  => 'text',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'Privilege',
+            'label' => 'Role',
+            'type' => 'select2_from_array',
+            'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
+            'allows_null' => false,
+        ]);
+
+        $this->crud->addField([
+            'name' => 'SN',
+            'label' => 'Registrasi Perangkat',
+            'hint' => 'Pilih perangkat pendaftaran sidik jari pegawai',
+            'type' => 'select2_from_array',
+            'options' => Device::pluck('SN', 'SN'),
+            'allows_null' => true,
+        ]);
     }
 }
