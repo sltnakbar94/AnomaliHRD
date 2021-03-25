@@ -6,4 +6,4 @@
 @endif
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('reportabsence') }} "><i class="las la-calendar-day"></i> Absen Harian</a></li>
 <li class='nav-item'><a class="nav-link" href='{{ backpack_url('reportmonthabsence') }}'><i class="lar la-calendar-alt"></i> Absen Bulanan</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class="las la-users"></i> Employees</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class="las la-users"></i> Karyawan</a></li>
