@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ReportMonthAbsenceRequest;
 use App\Models\Checkinout;
 use App\Models\Department;
+use App\Models\Keterangan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -47,6 +48,9 @@ class ReportMonthAbsenceCrudController extends CrudController
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
+        $this->crud->enableDetailsRow();
+        $this->crud->allowAccess('month.detailket');
+        $this->crud->setDetailsRowView('month.detailket');
         // $this->crud->addFilter([
         //     'type'  => 'date',
         //     'name'  => 'date',
@@ -157,5 +161,16 @@ class ReportMonthAbsenceCrudController extends CrudController
             \Alert::add('danger', 'Gagal Filter Data')->flash();
             return redirect()->back();
         }
+    }
+
+    public function ket(Request $request)
+    {
+            $new_ket = new Keterangan;
+            $new_ket->userid = $request->userid;
+            $new_ket->date = $request->date;
+            $new_ket->keterangan = $request->keterangan;
+            $new_ket->save();
+            \Alert::add('success', 'Berhasil Menambah data Item')->flash();
+            return redirect()->back();
     }
 }
