@@ -105,7 +105,7 @@ class UserCrudController extends CrudController
                 'name'        => 'role',
                 'label'       => "Role",
                 'type'        => 'select2_from_array',
-                'options'     => Role::pluck('name', 'id'),
+                'options'     => Role::pluck('name', 'name'),
                 'allows_null' => false,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
             ],
