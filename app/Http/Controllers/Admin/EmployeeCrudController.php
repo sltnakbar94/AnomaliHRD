@@ -128,7 +128,7 @@ class EmployeeCrudController extends CrudController
             'label' => 'Registrasi Perangkat',
             'hint' => 'Pilih perangkat pendaftaran sidik jari pegawai',
             'type' => 'select2_from_array',
-            'options' => Device::pluck('SN', 'SN'),
+            'options' => Device::pluck('Alias', 'SN'),
             'allows_null' => true,
         ]);
 
@@ -197,7 +197,7 @@ class EmployeeCrudController extends CrudController
             'label' => 'Registrasi Perangkat',
             'hint' => 'Pilih perangkat pendaftaran sidik jari pegawai',
             'type' => 'select2_from_array',
-            'options' => Device::pluck('SN', 'SN'),
+            'options' => Device::pluck('Alias', 'SN'),
             'allows_null' => true,
         ]);
     }
