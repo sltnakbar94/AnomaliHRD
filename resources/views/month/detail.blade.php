@@ -59,15 +59,13 @@
 	    @else
 	    @endif
 	    <div class="card no-padding no-border">
-            <div class="card-header">
-                <strong>{{$crud->entry->badgenumber}} : {{$crud->entry->name}}</strong>
-            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
                             <div class="col-md-12">
                                 <table id="tableDetailMonth" class="display nowrap">
+                                    <caption style="caption-side: top;"><h3><b>{{$crud->entry->badgenumber}} : {{$crud->entry->name}}</b></h3></caption>
                                     <thead>
                                         <tr>
                                             <th style="text-align: center; vertical-align: middle" rowspan="2">
@@ -81,9 +79,6 @@
                                             </th>
                                             <th style="text-align: center; vertical-align: middle" colspan="2">
                                                 Kerja
-                                            </th>
-                                            <th style="text-align: center; vertical-align: middle" rowspan="2">
-                                                Total Masuk Kerja
                                             </th>
                                             <th style="text-align: center; vertical-align: middle" rowspan="2">
                                                 Total Jam Kerja
@@ -114,6 +109,7 @@
                                                 'Fri' => 'Jumat',
                                                 'Sat' => 'Sabtu'
                                             );
+                                            @$keterangan = @\App\Models\Keterangan::where('userid', $crud->entry->userid)->whereDate('date', date('Y-m-d', strtotime($date)))->orderBy('created_at', 'desc')->first()->keterangan;
                                             @$masuk = @\App\Models\CheckIn::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'asc')->first()->checktime;
                                             @$pulang = @\App\Models\CheckOut::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'desc')->first()->checktime;
                                             @$t1 = @\Carbon\Carbon::parse(@$masuk);
@@ -141,13 +137,10 @@
                                                 {{@$pulang}}
                                             </td>
                                             <td style="text-align: center;">
-                                                {{date('H:i:s', (strtotime(@$pulang)-strtotime(@$masuk)))}}
-                                            </td>
-                                            <td style="text-align: center;">
                                                 {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
                                             </td>
                                             <td style="text-align: center;">
-
+                                                {{@$keterangan}}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -158,7 +151,7 @@
                                             <td></td>
                                             <td></td>
                                             <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $crud->entry->userid)->first()->jumlah}} Hari</td>
-                                            <td colspan="2" style="text-align: center;">Total Jam Kerja : {{floor(@$sum_minute/60)}} Jam {{(($sum_minute/60)-floor(@$sum_minute/60))*60}} Menit</td>
+                                            <td style="text-align: center;">Total Jam Kerja : {{floor(@$sum_minute/60)}} Jam {{(($sum_minute/60)-floor(@$sum_minute/60))*60}} Menit</td>
                                             <td></td>
                                         </tr>
                                     </tfoot>
