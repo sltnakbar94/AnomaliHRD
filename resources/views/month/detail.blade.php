@@ -150,7 +150,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $crud->entry->userid)->first()->jumlah}} Hari</td>
+                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::selectRaw("count(distinct(date(checktime))) as jumlah")->whereDate('checktime', date('Y-m-d', strtotime($date)))->where('userid', $crud->entry->userid)->first()->jumlah}} Hari</td>
                                             <td style="text-align: center;">Total Jam Kerja : {{floor(@$sum_minute/60)}} Jam {{(($sum_minute/60)-floor(@$sum_minute/60))*60}} Menit</td>
                                             <td></td>
                                         </tr>
