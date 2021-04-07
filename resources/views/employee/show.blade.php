@@ -61,39 +61,39 @@
                             <table class="table no-border">
                                 <tr>
                                     <td>Badge Number</td>
-                                    <td><strong>{{$crud->entry->badgenumber}}</strong></td>
+                                    <td><strong>{{@$crud->entry->badgenumber}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Perusahaan</td>
-                                    <td><strong>{{$crud->entry->department->DeptName}}</strong></td>
+                                    <td><strong>{{@$crud->entry->department->DeptName}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Nama</td>
-                                    <td><strong>{{$crud->entry->name}}</strong></td>
+                                    <td><strong>{{@$crud->entry->name}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Jabatan</td>
-                                    <td><strong>{{$crud->entry->jabatan->name}}</strong></td>
+                                    <td><strong>{{@$crud->entry->jabatan->name}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>CV</td>
-                                    <td><iframe src="{{asset('storage/'.$crud->entry->cv)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->cv)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>KTP</td>
-                                    <td><iframe src="{{asset('storage/'.$crud->entry->ktp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->ktp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>Ijazah</td>
-                                    <td><iframe src="{{asset('storage/'.$crud->entry->ijazah)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->ijazah)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>KK</td>
-                                    <td><iframe src="{{asset('storage/'.$crud->entry->kk)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->kk)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>NPWP</td>
-                                    <td><iframe src="{{asset('storage/'.$crud->entry->npwp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->npwp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                             </table>
                         </div>
