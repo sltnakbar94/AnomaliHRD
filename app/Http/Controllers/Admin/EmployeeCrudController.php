@@ -187,6 +187,15 @@ class EmployeeCrudController extends CrudController
             'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
         ]);
 
+        $this->crud->addField([   // Upload
+            'name'      => 'submission_form',
+            'label'     => 'Form Aplikasi Calon Karyawan',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
         $this->crud->addField([
             'name'  => "DelTag",
             'type'  => 'hidden',
@@ -299,6 +308,14 @@ class EmployeeCrudController extends CrudController
         $this->crud->addField([   // Upload
             'name'      => 'npwp',
             'label'     => 'Nomor Pokok Wajib Pajak',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'submission_form',
+            'label'     => 'Form Aplikasi Calon Karyawan',
             'type'      => 'upload',
             'upload'    => true,
             'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;

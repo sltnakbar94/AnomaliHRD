@@ -95,6 +95,10 @@
                                     <td>NPWP</td>
                                     <td><iframe src="{{asset('storage/'.@$crud->entry->npwp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
+                                <tr>
+                                    <td>Form Aplikasi Calon Karyawan</td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->submission_form)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                </tr>
                             </table>
                         </div>
                     </div>

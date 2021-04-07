@@ -105,4 +105,13 @@ class Employee extends Model
 
         $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
     }
+
+    public function setSubmissionFormAttribute($value)
+    {
+        $attribute_name = "submission_form";
+        $disk = "public";
+        $destination_path = "empployee/submission_form";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
 }
