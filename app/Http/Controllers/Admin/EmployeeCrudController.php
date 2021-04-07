@@ -6,6 +6,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\Department;
 use App\Models\Device;
 use App\Models\Employee;
+use App\Models\Position;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -134,6 +135,59 @@ class EmployeeCrudController extends CrudController
         ]);
 
         $this->crud->addField([
+            'name' => 'position_id',
+            'label' => 'Jabatan',
+            'type' => 'select2_from_array',
+            'options' => Position::pluck('name', 'id'),
+            'allows_null' => true,
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'cv',
+            'label'     => 'CV',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'ktp',
+            'label'     => 'Kartu Tanda Penduduk',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'ijazah',
+            'label'     => 'Ijazah',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'kk',
+            'label'     => 'Kartu Keluarga',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'npwp',
+            'label'     => 'Nomor Pokok Wajib Pajak',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ]);
+
+        $this->crud->addField([
             'name'  => "DelTag",
             'type'  => 'hidden',
             'value' => '0',
@@ -200,6 +254,66 @@ class EmployeeCrudController extends CrudController
             'type' => 'select2_from_array',
             'options' => Device::pluck('Alias', 'SN'),
             'allows_null' => true,
+        ]);
+
+        $this->crud->addField([
+            'name' => 'position_id',
+            'label' => 'Jabatan',
+            'type' => 'select2_from_array',
+            'options' => Position::pluck('name', 'id'),
+            'allows_null' => true,
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'cv',
+            'label'     => 'CV',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'ktp',
+            'label'     => 'Kartu Tanda Penduduk',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'ijazah',
+            'label'     => 'Ijazah',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'kk',
+            'label'     => 'Kartu Keluarga',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([   // Upload
+            'name'      => 'npwp',
+            'label'     => 'Nomor Pokok Wajib Pajak',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
+
+        $this->crud->addField([
+            'name'  => "DelTag",
+            'type'  => 'hidden',
+            'value' => '0',
+        ]);
+
+        $this->crud->addField([
+            'name'  => "RegisterOT",
+            'type'  => 'hidden',
+            'value' => '1',
         ]);
     }
 }
