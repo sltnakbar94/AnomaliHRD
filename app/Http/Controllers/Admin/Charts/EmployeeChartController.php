@@ -19,7 +19,17 @@ class EmployeeChartController extends ChartController
 
         $db->pieChart();
 
-        dd($db);
+        $karyawan = array();
+        $perusahaan = array();
+        $color = array();
+        foreach ($db->data['perusahaan'] as $item) {
+            $count = json_decode($item->count, true);
+            $karyawan[] = $count;
+
+            $perusahaan[] = $item->DeptName;
+
+            $color[] = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
 
         $this->chart = new Chart();
         $this->chart->labels([
@@ -29,15 +39,11 @@ class EmployeeChartController extends ChartController
 
         $this->chart = new Chart();
 
-        $this->chart->dataset('Jumlah Karyawan', 'pie', [
-            ])->backgroundColor([
-                '#CD211F',
-                '#FFA500',
-            ]);
+        $this->chart->dataset('Jumlah Karyawan', 'pie', $karyawan)->backgroundColor($color);
 
         $this->chart->displayAxes(false);
         $this->chart->displayLegend(true);
 
-        $this->chart->labels(['Sisa Paket', 'Paket Keluar']);
+        $this->chart->labels($perusahaan);
     }
 }
