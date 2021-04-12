@@ -117,13 +117,24 @@ class EmployeeCrudController extends CrudController
             'type'  => 'text',
         ]);
 
-        $this->crud->addField([
-            'name' => 'Privilege',
-            'label' => 'Role',
-            'type' => 'select2_from_array',
-            'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
-            'allows_null' => false,
-        ]);
+        if (backpack_user()->role == 'hrd') {
+            $this->crud->addField([
+                'name' => 'Privilege',
+                'label' => 'Role',
+                'type' => 'select2_from_array',
+                'options' => ['0' => 'Normal'],
+                'allows_null' => false,
+            ]);
+        } else {
+            $this->crud->addField([
+                'name' => 'Privilege',
+                'label' => 'Role',
+                'type' => 'select2_from_array',
+                'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
+                'allows_null' => false,
+            ]);
+        }
+
 
         $this->crud->addField([
             'name' => 'SN',

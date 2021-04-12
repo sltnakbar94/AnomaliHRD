@@ -30,8 +30,6 @@ class EmployeeChartController extends ChartController
         $this->chart = new Chart();
 
         $this->chart->dataset('Jumlah Karyawan', 'pie', [
-                (int)$db->data['dashboard']['stok_paket']['count'],
-                (int)$db->data['dashboard']['paket_keluar']['count'],
             ])->backgroundColor([
                 '#CD211F',
                 '#FFA500',
