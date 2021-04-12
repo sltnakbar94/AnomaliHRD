@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Admin\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    protected $data = []; // the information we send to the view
+    public $data = []; // the information we send to the view
 
     /**
      * Create a new controller instance.
@@ -29,6 +32,9 @@ class AdminController extends Controller
             trans('backpack::crud.admin')     => backpack_url('dashboard'),
             trans('backpack::base.dashboard') => false,
         ];
+        $this->counter();
+
+        $this->pieChart();
 
         return view(backpack_view('dashboard'), $this->data);
     }
@@ -41,5 +47,29 @@ class AdminController extends Controller
     public function redirect()
     {
         return redirect(backpack_url('dashboard'));
+    }
+
+    public function counter()
+    {
+        $total_karyawan = Employee::count('userid');
+        $total_perusahaan = Department::count('DeptID');
+        // redis check here
+        $this->data['dashboard'] = [
+            'total_karyawan' => [
+                'progress' => ($total_karyawan > 0) ? ($total_karyawan / $total_karyawan)  * 100 : 0,
+                'count' => $total_karyawan,
+            ],
+            'total_perusahaan' => [
+                'progress' => ($total_perusahaan > 0) ? ($total_perusahaan / $total_perusahaan) * 100 : 0,
+                'count' => $total_perusahaan,
+            ],
+        ];
+    }
+
+    public function pieChart()
+    {
+        $employees = DB::select(DB::Raw("SELECT count(*) as count, departments.DeptName FROM `userinfo` JOIN departments ON userinfo.defaultdeptid = departments.DeptID GROUP BY userinfo.defaultdeptid"));
+
+        $this->data['perusahaan'] = $employees;
     }
 }

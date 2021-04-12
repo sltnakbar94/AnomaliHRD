@@ -14,6 +14,7 @@ Route::group([
     ),
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
+    Route::get('dashboard', 'AdminController@dashboard')->name('backpack.dashboard');
     Route::crud('role', 'RoleCrudController');
     Route::crud('user', 'UserCrudController');
     Route::crud('reportabsence', 'ReportAbsenceCrudController');
@@ -23,4 +24,5 @@ Route::group([
     Route::crud('employee', 'EmployeeCrudController');
     Route::crud('keterangan', 'KeteranganCrudController');
     Route::crud('position', 'PositionCrudController');
+    Route::get('charts/employee', 'Charts\EmployeeChartController@response')->name('charts.employee.index');
 }); // this should be the absolute last line of this file
