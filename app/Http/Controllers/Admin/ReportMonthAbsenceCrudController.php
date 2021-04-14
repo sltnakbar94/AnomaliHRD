@@ -225,6 +225,7 @@ class ReportMonthAbsenceCrudController extends CrudController
             'jam' => $sum_hour,
             'menit' => $sum_minute,
             'user' => $user,
+            'month' => $day,
         ];
 
         \Alert::add('success', 'Berhasil Mencari Data')->flash();
