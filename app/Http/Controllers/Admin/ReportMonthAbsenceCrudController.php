@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ReportMonthAbsenceRequest;
 use App\Models\Checkinout;
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\Keterangan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ReportMonthAbsenceCrudController
@@ -165,12 +167,67 @@ class ReportMonthAbsenceCrudController extends CrudController
 
     public function ket(Request $request)
     {
-            $new_ket = new Keterangan;
-            $new_ket->userid = $request->userid;
-            $new_ket->date = $request->date;
-            $new_ket->keterangan = $request->keterangan;
-            $new_ket->save();
-            \Alert::add('success', 'Berhasil Menambah data Item')->flash();
+        if ($request->keterangan == "Proyek") {
+            $validator = Validator::make($request->all(), [
+                'date' => 'required',
+                'keterangan' => 'required',
+                'proyek' => 'required',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'date' => 'required',
+                'keterangan' => 'required',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            \Alert::add('danger', 'Form belum lengkap')->flash();
             return redirect()->back();
+        }
+
+        $new_ket = new Keterangan;
+        $new_ket->userid = $request->userid;
+        $new_ket->date = $request->date;
+        if ($request->keterangan == "Proyek") {
+            $new_ket->keterangan = $request->keterangan . " " . $request->proyek;
+        } else {
+            $new_ket->keterangan = $request->keterangan;
+        }
+        $new_ket->save();
+        \Alert::add('success', 'Berhasil Menambah data Item')->flash();
+        return redirect()->back();
+    }
+
+    public function getmonth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'month' => 'required',
+            'userid' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            \Alert::add('danger', 'Form belum lengkap')->flash();
+            return redirect()->back();
+        }
+
+        $day = \Carbon\Carbon::parse($request->month);
+        $dates = [];
+
+        for($i=1; $i < $day->daysInMonth + 1; ++$i) {
+            $dates[] = \Carbon\Carbon::createFromDate($day->year, $day->month, $i)->format('d-M-Y');
+        }
+        $sum_hour = 0;
+        $sum_minute = 0;
+        $user = Employee::findOrFail($request->userid);
+
+        $this->data['month'] = [
+            'day' => $dates,
+            'jam' => $sum_hour,
+            'menit' => $sum_minute,
+            'user' => $user,
+        ];
+
+        \Alert::add('success', 'Berhasil Mencari Data')->flash();
+        return view('month.month', $this->data);
     }
 }

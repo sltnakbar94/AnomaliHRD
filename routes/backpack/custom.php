@@ -20,6 +20,7 @@ Route::group([
     Route::crud('reportabsence', 'ReportAbsenceCrudController');
     Route::crud('reportmonthabsence', 'ReportMonthAbsenceCrudController');
     Route::post('reportmonthabsence/filter', 'ReportMonthAbsenceCrudController@filter');
+    Route::post('getmonth', 'ReportMonthAbsenceCrudController@getmonth');
     Route::post('detailket/ket', 'ReportMonthAbsenceCrudController@ket');
     Route::crud('employee', 'EmployeeCrudController');
     Route::crud('keterangan', 'KeteranganCrudController');

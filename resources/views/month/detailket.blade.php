@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="keterangan">Keterangan</label>
-                                <select class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}" id="keterangan" required>
+                                <select id="keterangan" onchange="AddKeterangan();" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}" id="keterangan" required>
                                     <option value="">-</option>
                                     <option value="Cuti">Cuti</option>
                                     <option value="Proyek">Proyek</option>
@@ -36,6 +36,15 @@
                                 @if ($errors->has('keterangan'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('keterangan') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="form-group mt-2" style="display:none" id="addProyek">
+                                    <label class="control-label" for="proyek">Nama Proyek</label>
+                                    <input type="text" class="form-control" id="proyek" name="proyek">
+                                </div>
+                                @if ($errors->has('proyek'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('proyek') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -50,3 +59,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    function AddKeterangan(){
+        var newKeterangan = document.getElementById("keterangan");
+        var selectedValues = newKeterangan.options[newKeterangan.selectedIndex].value;
+        var addProyek = document.getElementById("addProyek");
+        if(selectedValues == "Proyek"){
+            addProyek.style.display = "block";
+        }else{
+            addProyek.style.display = "none" ;
+        }
+    }
+</script>

@@ -1,80 +1,18 @@
 @extends(backpack_view('blank'))
 
-@php
-    $defaultBreadcrumbs = [
-        trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
-        $crud->entity_name_plural => url($crud->route),
-        trans('backpack::crud.preview') => false,
-    ];
-
-    // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
-    $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
-
-    $today = today();
-    $dates = [];
-
-    for($i=1; $i < $today->daysInMonth + 1; ++$i) {
-        $dates[] = \Carbon\Carbon::createFromDate($today->year, $today->month, $i)->format('d-M-Y');
-    }
-    $sum_hour = 0;
-    $sum_minute = 0;
-@endphp
-
-@section('header')
-	<section class="container-fluid d-print-none">
-    	<a href="javascript: window.print();" class="btn float-right"><i class="la la-print"></i></a>
-		<h2>
-	        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-	        <small>{!! $crud->getSubheading() ?? mb_ucfirst(trans('backpack::crud.preview')).' '.$crud->entity_name !!}</small>
-	        @if ($crud->hasAccess('list'))
-	          <small class=""><a href="{{ url($crud->route) }}" class="font-sm"><i class="la la-angle-double-left"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-	        @endif
-	    </h2>
-    </section>
-@endsection
-
 @section('content')
-
 <div class="row">
 	<div class="col-md-12">
-
 	<!-- Default box -->
 	  <div class="">
-	  	@if ($crud->model->translationEnabled())
-	    <div class="row">
-	    	<div class="col-md-12 mb-2">
-				<!-- Change translation button group -->
-				<div class="btn-group float-right">
-				  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    {{trans('backpack::crud.language')}}: {{ $crud->model->getAvailableLocales()[request()->input('locale')?request()->input('locale'):App::getLocale()] }} &nbsp; <span class="caret"></span>
-				  </button>
-				  <ul class="dropdown-menu">
-				  	@foreach ($crud->model->getAvailableLocales() as $key => $locale)
-					  	<a class="dropdown-item" href="{{ url($crud->route.'/'.$entry->getKey().'/show') }}?locale={{ $key }}">{{ $locale }}</a>
-				  	@endforeach
-				  </ul>
-				</div>
-			</div>
-	    </div>
-	    @else
-	    @endif
 	    <div class="card no-padding no-border">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModalGetMonth" style="float: right">
-                            <i class="las la-calendar"></i> Cari Bulan
-                        </button>
-                    </div>
-                </div>
-            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
                             <div class="col-md-12">
                                 <table id="tableDetailMonth" class="display nowrap">
-                                    <caption style="caption-side: top;"><h3><b>{{$crud->entry->badgenumber}} : {{$crud->entry->name}}</b></h3></caption>
+                                    <caption style="caption-side: top;"><h3><b>{{$month['user']->badgenumber}} : {{$month['user']->name}}</b></h3></caption>
                                     <thead>
                                         <tr>
                                             <th style="text-align: center; vertical-align: middle" rowspan="2">
@@ -106,7 +44,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dates as $key=>$date)
+                                        @foreach ($month['day'] as $key=>$date)
                                         @php
                                             $day = date('D', strtotime($date));
                                             $dayList = array(
@@ -118,16 +56,16 @@
                                                 'Fri' => 'Jumat',
                                                 'Sat' => 'Sabtu'
                                             );
-                                            @$keterangan = @\App\Models\Keterangan::where('userid', $crud->entry->userid)->whereDate('date', date('Y-m-d', strtotime($date)))->orderBy('created_at', 'desc')->first()->keterangan;
-                                            @$masuk = @\App\Models\CheckIn::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'asc')->first()->checktime;
-                                            @$pulang = @\App\Models\CheckOut::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'desc')->first()->checktime;
+                                            @$keterangan = @\App\Models\Keterangan::where('userid', $month['user']->userid)->whereDate('date', date('Y-m-d', strtotime($date)))->orderBy('created_at', 'desc')->first()->keterangan;
+                                            @$masuk = @\App\Models\CheckIn::where('userid', $month['user']->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'asc')->first()->checktime;
+                                            @$pulang = @\App\Models\CheckOut::where('userid', $month['user']->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'desc')->first()->checktime;
                                             @$t1 = @\Carbon\Carbon::parse(@$masuk);
                                             @$t2 = @\Carbon\Carbon::parse(@$pulang);
                                             @$hour = $t1->diffInHours($t2);
                                             @$minute = $t1->diffInMinutes($t2);
                                             @$second = $t1->diffInSeconds($t2);
-                                            $sum_hour += $hour;
-                                            $sum_minute += $minute;
+                                            $month['jam'] += $hour;
+                                            $month['menit'] += $minute;
                                         @endphp
                                         <tr>
                                             <td style="text-align: center;">
@@ -159,8 +97,8 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::whereMonth('checktime', today())->selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $crud->entry->userid)->first()->jumlah}} Hari</td>
-                                            <td style="text-align: center;">Total Jam Kerja : {{floor(@$sum_minute/60)}} Jam {{(($sum_minute/60)-floor(@$sum_minute/60))*60}} Menit</td>
+                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::whereMonth('checktime', today())->selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $month['user']->userid)->first()->jumlah}} Hari</td>
+                                            <td style="text-align: center;">Total Jam Kerja : {{floor(@$month['menit']/60)}} Jam {{(($month['menit']/60)-floor(@$month['menit']/60))*60}} Menit</td>
                                             <td></td>
                                         </tr>
                                     </tfoot>
@@ -174,7 +112,6 @@
 	</div>
 </div>
 @endsection
-@include('month.get-month')
 
 
 @section('after_styles')
