@@ -97,7 +97,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::whereMonth('checktime', today())->selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $month['user']->userid)->first()->jumlah}} Hari</td>
+                                            <td colspan="2">Total Hari Kerja : {{@\App\Models\CheckInOut::whereMonth('checktime', $month['day'])->selectRaw("count(distinct(date(checktime))) as jumlah")->where('userid', $month['user']->userid)->first()->jumlah}} Hari</td>
                                             <td style="text-align: center;">Total Jam Kerja : {{floor(@$month['menit']/60)}} Jam {{(($month['menit']/60)-floor(@$month['menit']/60))*60}} Menit</td>
                                             <td></td>
                                         </tr>
