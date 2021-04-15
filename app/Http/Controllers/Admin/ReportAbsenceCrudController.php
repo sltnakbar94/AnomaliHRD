@@ -80,7 +80,7 @@ class ReportAbsenceCrudController extends CrudController
         $this->crud->addColumn([
             'label'     => 'Tanggal', // Table column heading
             'type'      => 'select',
-            'name'      => 'userid', // the column that contains the ID of that connected entity;
+            // 'name'      => 'userid', // the column that contains the ID of that connected entity;
             'entity'    => 'date', // the method that defines the relationship in your Model
             'attribute' => 'checktime', // foreign key attribute that is shown to user
             'model'     => "App\Models\Checkinout", // foreign key model
@@ -102,6 +102,23 @@ class ReportAbsenceCrudController extends CrudController
             'entity'    => 'CheckOut', // the method that defines the relationship in your Model
             'attribute' => 'checktime', // foreign key attribute that is shown to user
             'model'     => "App\Models\CheckOut",
+        ]);
+
+        $this->crud->addColumn([
+            'name'     => 'userid',
+            'label'    => 'Jam Kerja',
+            'type'     => 'closure',
+            'function' => function($entry) {
+                if (!empty($entry->CheckIn->checktime)) {
+                    $t1 = \Carbon\Carbon::parse($entry->CheckIn->checktime);
+                    $t2 = \Carbon\Carbon::parse($entry->CheckOut->checktime);
+                    $time = $t1->diffInMinutes($t2);
+                    return $time;
+                } else {
+                    return "-";
+
+                }
+            }
         ]);
 
         $this->crud->enableExportButtons();
