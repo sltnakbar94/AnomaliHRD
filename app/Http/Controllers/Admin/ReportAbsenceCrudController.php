@@ -113,7 +113,7 @@ class ReportAbsenceCrudController extends CrudController
                     $t1 = \Carbon\Carbon::parse($entry->CheckIn->checktime);
                     $t2 = \Carbon\Carbon::parse($entry->CheckOut->checktime);
                     $time = $t1->diffInMinutes($t2);
-                    return $time;
+                    return floor($time/60) . " Jam " . (($time/60)-floor($time/60))*60 . " Menit";
                 } else {
                     return "-";
 
