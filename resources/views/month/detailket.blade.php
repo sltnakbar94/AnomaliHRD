@@ -32,6 +32,7 @@
                                     <option value="Sakit">Sakit</option>
                                     <option value="Sakit Tanpa Surat Dokter">Sakit Tanpa Surat Dokter</option>
                                     <option value="Tidak Masuk Tanpa Keterangan">Tidak Masuk Tanpa Keterangan</option>
+                                    <option value="Izin">Izin</option>
                                   </select>
                                 @if ($errors->has('keterangan'))
                                     <span class="invalid-feedback">
@@ -39,7 +40,7 @@
                                     </span>
                                 @endif
                                 <div class="form-group mt-2" style="display:none" id="addProyek">
-                                    <label class="control-label" for="proyek">Nama Proyek</label>
+                                    <label class="control-label" for="proyek">Keterangan Tambahan</label>
                                     <input type="text" class="form-control" id="proyek" name="proyek">
                                 </div>
                                 @if ($errors->has('proyek'))
@@ -65,7 +66,7 @@
         var newKeterangan = document.getElementById("keterangan");
         var selectedValues = newKeterangan.options[newKeterangan.selectedIndex].value;
         var addProyek = document.getElementById("addProyek");
-        if(selectedValues == "Proyek"){
+        if(selectedValues == "Proyek" || selectedValues == "Izin"){
             addProyek.style.display = "block";
         }else{
             addProyek.style.display = "none" ;
