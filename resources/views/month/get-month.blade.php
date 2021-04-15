@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group text-right">
                             <label for=""></label>
-                            <button type="submit" class="btn btn-primary" id="add-buton-out">SIMPAN</button>
+                            <button type="submit" class="btn btn-success" id="add-buton-out">CARI</button>
                         </div>
                     </form>
                 </div>
