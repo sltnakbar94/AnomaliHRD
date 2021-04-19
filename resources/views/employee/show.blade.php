@@ -56,32 +56,106 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="table">
                             <table class="table no-border">
                                 <tr>
-                                    <td>Badge Number</td>
-                                    <td><strong>{{@$crud->entry->badgenumber}}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>Perusahaan</td>
-                                    <td><strong>{{@$crud->entry->department->DeptName}}</strong></td>
+                                    <td>NIK</td>
+                                    <td><strong>{{@$crud->entry->nik}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Nama</td>
                                     <td><strong>{{@$crud->entry->name}}</strong></td>
                                 </tr>
                                 <tr>
+                                    <td>Perusahaan</td>
+                                    <td><strong>{{@$crud->entry->department->DeptName}}</strong></td>
+                                </tr>
+                                <tr>
                                     <td>Jabatan</td>
                                     <td><strong>{{@$crud->entry->jabatan->name}}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>CV</td>
-                                    <td><iframe src="{{asset('storage/'.@$crud->entry->cv)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td>Tempat, Tanggal Lahir</td>
+                                    <td><strong>{{@$crud->entry->place_of_birth}}, {{@$crud->entry->date_of_birth}}</strong></td>
                                 </tr>
+                                <tr>
+                                    <td>Pendidikan</td>
+                                    <td><strong>{{@$crud->entry->degree}}, {{@$crud->entry->vocational}}, {{@$crud->entry->university}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Status Kerja</td>
+                                    <td><strong>{{@$crud->entry->work_status}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Join</td>
+                                    <td><strong>{{date(@$crud->entry->date_of_join)}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Tetap</td>
+                                    <td><strong>{{date(@$crud->entry->date_of_permanent)}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Masa Kerja</td>
+                                    <td><strong>{{@$crud->entry->time_service}} {{@$crud->entry->unit_time_service}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor KTP</td>
+                                    <td><strong>{{@$crud->entry->id_number}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor NPWP</td>
+                                    <td><strong>{{@$crud->entry->no_npwp}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat Sesuai KTP</td>
+                                    <td><textarea style="width: 100%; heigh: 100%; border-style: none; border-color: Transparent; overflow: auto" readonly disabled>{{@$crud->entry->address_id}}</textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat Domisili</td>
+                                    <td><textarea style="width: 100%; heigh: 100%; border-style: none; border-color: Transparent; overflow: auto" readonly disabled>{{@$crud->entry->address}}</textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat E-mail</td>
+                                    <td><strong>{{@$crud->entry->email}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor Telp</td>
+                                    <td><strong>{{@$crud->entry->contact_number}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>BPJS Kesehatan</td>
+                                    <td><strong>{{@$crud->entry->bpjs_kesehatan}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>BPJS Ketenagakerjaan</td>
+                                    <td><strong>{{@$crud->entry->bpjs_ketenagakerjaan}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Sertifikasi</td>
+                                    <td>
+                                    @foreach (@$crud->entry->sertifikasi as $sertifikat)
+                                        <iframe src="{{asset('storage/'.@$sertifikat)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe><br>
+                                    @endforeach
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table">
+                            <table class="table no-border">
                                 <tr>
                                     <td>KTP</td>
                                     <td><iframe src="{{asset('storage/'.@$crud->entry->ktp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                </tr>
+                                <tr>
+                                    <td>NPWP</td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->npwp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                </tr>
+                                <tr>
+                                    <td>CV</td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->cv)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>Ijazah</td>
@@ -92,8 +166,12 @@
                                     <td><iframe src="{{asset('storage/'.@$crud->entry->kk)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
-                                    <td>NPWP</td>
-                                    <td><iframe src="{{asset('storage/'.@$crud->entry->npwp)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                    <td>BPJS Kesehatan</td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->kesehatan)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
+                                </tr>
+                                <tr>
+                                    <td>BPJS Ketenagakerjaan</td>
+                                    <td><iframe src="{{asset('storage/'.@$crud->entry->ketenagakerjaan)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe></td>
                                 </tr>
                                 <tr>
                                     <td>Form Aplikasi Calon Karyawan</td>
