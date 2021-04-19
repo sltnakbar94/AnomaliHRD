@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ReportAbsenceRequest;
 use App\Models\Checkinout;
+use App\Models\Department;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -44,17 +45,20 @@ class ReportAbsenceCrudController extends CrudController
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
         $this->crud->removeButton('show');
+        $this->crud->enableDetailsRow();
+        $this->crud->allowAccess('month.detailket');
+        $this->crud->setDetailsRowView('month.detailket');
 
-        // $this->crud->addFilter([
-        //     'type'  => 'date',
-        //     'name'  => 'date',
-        //     'label' => 'Tanggal',
-        //     'value' => today()
-        //   ],
-        // false,
-        // function ($value) {
-        //     $this->crud->query->select(['checkinout.*', 'userinfo.*'])->distinct('checkinout.check')->join('checkinout', 'checkinout.userid', '=', 'userinfo.userid')->whereRaw('DATE(checktime) = "'. $value .'"');
-        // });
+        // simple filter
+        $this->crud->addFilter([
+            'type'  => 'text',
+            'name'  => 'name',
+            'label' => 'Nama'
+        ],
+        false,
+        function($value) { // if the filter is active
+            $this->crud->addClause('where', 'name', 'LIKE', "%$value%");
+        });
 
         $this->crud->addColumn([
             'name' => 'badgenumber', // The db column name
