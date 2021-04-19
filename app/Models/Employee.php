@@ -19,6 +19,9 @@ class Employee extends Model
     protected $primaryKey = 'userid';
     public $timestamps = false;
     protected $guarded = ['userid'];
+    protected $casts = [
+        'sertifikasi' => 'array'
+    ];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -49,6 +52,10 @@ class Employee extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -113,5 +120,32 @@ class Employee extends Model
         $destination_path = "empployee/submission_form";
 
         $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+    public function setKesehatanAttribute($value)
+    {
+        $attribute_name = "kesehatan";
+        $disk = "public";
+        $destination_path = "empployee/bpjs/kesehatan";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+    public function setKetenagakerjaanAttribute($value)
+    {
+        $attribute_name = "ketenagakerjaan";
+        $disk = "public";
+        $destination_path = "empployee/bpjs/ketenagakerjaan";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+    public function setSertifikasiAttribute($value)
+    {
+        $attribute_name = "sertifikasi";
+        $disk = "public";
+        $destination_path = "empployee/sertifikasi";
+
+        $this->uploadMultipleFilesToDisk($value, $attribute_name, $disk, $destination_path);
     }
 }
