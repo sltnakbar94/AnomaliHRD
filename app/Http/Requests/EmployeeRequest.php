@@ -28,7 +28,6 @@ class EmployeeRequest extends FormRequest
         return [
             'defaultdeptid' => 'required',
             'name' => 'required',
-            'Privilege' => 'required',
             'SN' => 'required',
             'cv' => 'mimes:jpeg,bmp,png,svg,pdf',
             'ktp' => 'mimes:jpeg,bmp,png,svg,pdf',
@@ -38,7 +37,6 @@ class EmployeeRequest extends FormRequest
             'submission_form' => 'mimes:jpeg,bmp,png,svg,pdf',
             'kesehatan' => 'mimes:jpeg,bmp,png,svg,pdf',
             'ketenagakerjaan' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'sertifikasi' => 'mimes:jpeg,bmp,png,svg,pdf',
         ];
     }
 
