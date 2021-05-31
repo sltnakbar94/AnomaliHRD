@@ -45,9 +45,9 @@ class ReportAbsenceCrudController extends CrudController
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');
         $this->crud->removeButton('show');
-        $this->crud->enableDetailsRow();
-        $this->crud->allowAccess('month.detailket');
-        $this->crud->setDetailsRowView('month.detailket');
+        // $this->crud->enableDetailsRow();
+        // $this->crud->allowAccess('month.detailket');
+        // $this->crud->setDetailsRowView('month.detailket');
 
         // simple filter
         $this->crud->addFilter([
