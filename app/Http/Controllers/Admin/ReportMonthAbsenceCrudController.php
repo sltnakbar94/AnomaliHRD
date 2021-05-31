@@ -47,6 +47,10 @@ class ReportMonthAbsenceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $user = Employee::where('email', '=', backpack_user()->email)->first();
+        if (backpack_user()->role == "staff") {
+            $this->crud->addClause('where', 'userid', '=', $user->userid);
+        }
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');

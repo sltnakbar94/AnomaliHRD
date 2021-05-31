@@ -41,6 +41,10 @@ class KeteranganCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $user = Employee::where('email', '=', backpack_user()->email)->first();
+        if (backpack_user()->role == "staff") {
+            $this->crud->addClause('where', 'userid', '=', $user->userid);
+        }
         $this->crud->removeButton('delete');
 
         $this->crud->addColumn([

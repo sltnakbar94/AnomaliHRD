@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ReportAbsenceRequest;
 use App\Models\Checkinout;
 use App\Models\Department;
+use App\Models\Employee;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -41,6 +42,10 @@ class ReportAbsenceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $user = Employee::where('email', '=', backpack_user()->email)->first();
+        if (backpack_user()->role == "staff") {
+            $this->crud->addClause('where', 'userid', '=', $user->userid);
+        }
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
         $this->crud->removeButton('delete');

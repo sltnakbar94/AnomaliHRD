@@ -44,6 +44,12 @@ class EmployeeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $user = Employee::where('email', '=', backpack_user()->email)->first();
+        if (backpack_user()->role == "staff") {
+            $this->crud->addClause('where', 'userid', '=', $user->userid);
+            $this->crud->removeButton('update');
+            $this->crud->removeButton('delete');
+        }
         // simple filter
         $this->crud->addFilter([
             'type'  => 'simple',
