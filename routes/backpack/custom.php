@@ -26,4 +26,5 @@ Route::group([
     Route::crud('keterangan', 'KeteranganCrudController');
     Route::crud('position', 'PositionCrudController');
     Route::get('charts/employee', 'Charts\EmployeeChartController@response')->name('charts.employee.index');
+    Route::crud('generateuser', 'GenerateUserCrudController');
 }); // this should be the absolute last line of this file

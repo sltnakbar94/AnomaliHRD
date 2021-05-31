@@ -11,4 +11,3 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class="las la-users"></i> Karyawan</a></li>
 @endif
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('keterangan') }}'><i class='las la-exclamation'></i> Keterangan</a></li>
-
