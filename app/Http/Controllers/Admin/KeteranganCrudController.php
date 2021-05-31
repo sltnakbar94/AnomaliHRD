@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\KeteranganRequest;
+use App\Models\Employee;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -21,36 +22,58 @@ class KeteranganCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Keterangan::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/keterangan');
-        CRUD::setEntityNameStrings('keterangan', 'keterangans');
+        CRUD::setEntityNameStrings('keterangan', 'keterangan');
+        $this->crud->setShowView('attendance.show');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        $this->crud->removeButton('delete');
+
+        $this->crud->addColumn([
+            'name' => 'userid',
+            'type' => 'select',
+            'entity' => 'user',
+            'attribute' => 'name',
+            'model' => 'App\Models\Employee',
+            'label' => 'Nama Karyawan'
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'date',
+            'type' => 'date',
+            'label' => 'Tanggal'
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'keterangan',
+            'type' => 'text',
+            'label' => 'Keterangan'
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -58,18 +81,88 @@ class KeteranganCrudController extends CrudController
     {
         CRUD::setValidation(KeteranganRequest::class);
 
-        CRUD::setFromDb(); // fields
+        $this->crud->removeSaveActions(['save_and_preview','save_and_edit','save_and_new']);
+
+        if (backpack_user()->role == "admin" || backpack_user()->role == "hrd") {
+            $this->crud->addField([
+                'name' => 'userid',
+                'label' => 'Karyawan',
+                'type' => 'select2_from_array',
+                'options' => Employee::pluck('name', 'userid'),
+                'allows_null' => true,
+            ]);
+        } else {
+            $this->crud->addField([
+                'name'  => 'userid',
+                'type'  => 'hidden',
+                'label' => 'user',
+                'value' => Employee::where('email', '=', backpack_user()->email)->first()->userid,
+            ]);
+        }
+
+
+        $this->crud->addField([   // date_picker
+            'name'  => 'date',
+            'type'  => 'date_picker',
+            'label' => 'Date',
+
+            // optional:
+            'date_picker_options' => [
+               'todayBtn' => 'linked',
+            ],
+        ]);
+
+        $this->crud->addField([  // Select2
+            'label'     => "Keterangan",
+            'type'      => 'select2_from_array',
+            'name'      => 'keterangan', // the db column for the foreign key
+            'options'   => ['Cuti' => 'Cuti', 'Tugas luar kantor' => 'Tugas luar kantor', 'Sakit' => 'Sakit', 'Izin' => 'Izin'],
+            'allows_null' => true,
+        ]);
+
+        $this->crud->addField([
+            'name' => 'keterngan_tambahan',
+            'label' => 'Keterangan Tambahan',
+            'type' => 'text'
+        ]);
+
+        if (backpack_user()->role == "admin" || backpack_user()->role == "hrd") {
+            $this->crud->addField([  // Select2
+                'label'     => "Status",
+                'type'      => 'select2_from_array',
+                'name'      => 'status', // the db column for the foreign key
+                'options'   => ['Submit' => 'Submit', 'Decline' => 'Decline', 'Approve' => 'Approve'],
+                'allows_null' => false,
+            ]);
+        } else {
+            $this->crud->addField([  // Select2
+                'label'     => "Status",
+                'type'      => 'hidden',
+                'name'      => 'status', // the db column for the foreign key
+                'value'   => 'Submit',
+            ]);
+        }
+
+
+        $this->crud->addField([   // Upload
+            'name'      => 'upload_data',
+            'label'     => 'Upload File',
+            'type'      => 'upload',
+            'hint'      => 'Format file yang didukung ; jpeg,bmp,png,svg,pdf,jpg',
+            'upload'    => true,
+            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

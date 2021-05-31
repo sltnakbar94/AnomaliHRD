@@ -26,7 +26,10 @@ class KeteranganRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'userid' => 'required',
+            'date' => 'required',
+            'keterangan' => 'required',
+            'upload_dara' => 'mimes:jpeg,bmp,png,svg,pdf,jpg',
         ];
     }
 

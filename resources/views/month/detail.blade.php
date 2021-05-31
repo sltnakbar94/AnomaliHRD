@@ -118,7 +118,7 @@
                                                 'Fri' => 'Jumat',
                                                 'Sat' => 'Sabtu'
                                             );
-                                            @$keterangan = @\App\Models\Keterangan::where('userid', $crud->entry->userid)->whereDate('date', date('Y-m-d', strtotime($date)))->orderBy('created_at', 'desc')->first()->keterangan;
+                                            @$keterangan = @\App\Models\Keterangan::where('userid', $crud->entry->userid)->whereDate('date', date('Y-m-d', strtotime($date)))->orderBy('created_at', 'desc')->first();
                                             @$masuk = @\App\Models\CheckIn::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'asc')->first()->checktime;
                                             @$pulang = @\App\Models\CheckOut::where('userid', $crud->entry->userid)->whereDate('checktime', date('Y-m-d', strtotime($date)))->orderBy('checktime', 'desc')->first()->checktime;
                                             @$t1 = @\Carbon\Carbon::parse(@$masuk);
@@ -129,7 +129,15 @@
                                             $sum_hour += $hour;
                                             $sum_minute += $minute;
                                         @endphp
-                                        <tr>
+                                        @if (@$hour < 9)
+                                            @if (@$keterangan->status == "Approve")
+                                                <tr style="background-color: #07c12a">
+                                            @else
+                                                <tr style="background-color: #ff4d4d">
+                                            @endif
+                                        @else
+                                            <tr>
+                                        @endif
                                             <td style="text-align: center;">
                                                 {{$key+1}}
                                             </td>
@@ -149,7 +157,7 @@
                                                 {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
                                             </td>
                                             <td style="text-align: center;">
-                                                {{@$keterangan}}
+                                                {{@$keterangan->keterangan}} {{@$keterangan->keterangan_tambahan}}
                                             </td>
                                         </tr>
                                         @endforeach

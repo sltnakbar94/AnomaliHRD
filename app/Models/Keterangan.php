@@ -28,6 +28,10 @@ class Keterangan extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function user()
+    {
+        return $this->belongsTo(Employee::class, 'userid', 'userid');
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -52,4 +56,15 @@ class Keterangan extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setUploadDataAttribute($value)
+    {
+        $attribute_name = "upload_data";
+        $disk = "public";
+        $destination_path = "keterangan/upload_data";
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+
+    // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
+    }
 }

@@ -68,7 +68,7 @@ class AdminController extends Controller
 
     public function pieChart()
     {
-        $employees = DB::select(DB::Raw("SELECT count(*) as count, departments.DeptName FROM `userinfo` JOIN departments ON userinfo.defaultdeptid = departments.DeptID GROUP BY userinfo.defaultdeptid"));
+        $employees = DB::select(DB::Raw("SELECT count(*) as count, departments.DeptName FROM `userinfo` JOIN departments ON userinfo.defaultdeptid = departments.DeptID GROUP BY userinfo.defaultdeptid ORDER BY departments.DeptName ASC"));
 
         $this->data['perusahaan'] = $employees;
     }
