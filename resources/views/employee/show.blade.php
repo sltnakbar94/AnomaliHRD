@@ -77,7 +77,7 @@
                                 </tr>
                                 <tr>
                                     <td>Tempat, Tanggal Lahir</td>
-                                    <td><strong>{{@$crud->entry->place_of_birth}}, {{date('d-m-Y', strtotime(@$crud->entry->date_of_birth))}}</strong></td>
+                                    <td><strong>{{@$crud->entry->place_of_birth}}, {{date('d-M-Y', strtotime(@$crud->entry->date_of_birth))}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Pendidikan</td>
