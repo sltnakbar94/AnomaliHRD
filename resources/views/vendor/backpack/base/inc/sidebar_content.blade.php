@@ -8,6 +8,6 @@
 @endif
 @if (backpack_user()->role != 'staff')
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('position') }}'><i class="las la-user-tie"></i> Positions</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class="las la-users"></i> Karyawan</a></li>
 @endif
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('employee') }}'><i class="las la-users"></i> Karyawan</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('keterangan') }}'><i class='las la-exclamation'></i> Keterangan</a></li>

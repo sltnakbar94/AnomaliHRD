@@ -47,7 +47,8 @@ class EmployeeCrudController extends CrudController
         $user = Employee::where('email', '=', backpack_user()->email)->first();
         if (backpack_user()->role == "staff") {
             $this->crud->addClause('where', 'userid', '=', $user->userid);
-            $this->crud->removeButton('update');
+            $this->crud->removeButton('create');
+            // $this->crud->removeButton('update');
             $this->crud->removeButton('delete');
         }
         // simple filter
@@ -276,303 +277,579 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
 
-        $this->crud->addField([
-            'name'  => "badgenumber",
-            'type'  => 'hidden',
-            'value' => $this->badgenumber(),
-        ]);
-
-        $this->crud->addField([
-            'label' => "Nama",
-            'name'  => "name",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([
-            'label' => "NIK",
-            'name'  => "employee_num",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([
-            'name' => 'defaultdeptid',
-            'label' => 'Departemen',
-            'type' => 'select2_from_array',
-            'options' => Department::pluck('DeptName', 'DeptID'),
-            'allows_null' => true,
-        ]);
-
-        $this->crud->addField([
-            'name' => 'position_id',
-            'label' => 'Jabatan',
-            'type' => 'select2_from_array',
-            'options' => Position::pluck('name', 'id'),
-            'allows_null' => true,
-        ]);
-
-        $this->crud->addField([
-            'label' => "Tempat Lahir",
-            'name'  => "place_of_birth",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_birth',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Lahir',
-
-            // optional:
-            // 'date_picker_options' => [
-            //    'todayBtn' => 'linked',
-            //    'format'   => 'dd-mm-yyyy',
-            // ],
-        ]);
-
-        $this->crud->addField([
-            'label' => "Tingkat Pendidikan",
-            'name'  => "degree",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([
-            'label' => "Kejuruan Pendidikan",
-            'name'  => "vocational",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([
-            'label' => "Nama Sekolah/Universitas",
-            'name'  => "university",
-            'type'  => 'text',
-        ]);
-
-        $this->crud->addField([
-            'name' => 'work_status',
-            'label' => 'Status',
-            'type' => 'select2_from_array',
-            'options' => ['Tetap' => 'Tetap', 'Kontrak' => 'Kontrak', 'Magang' => 'Magang'],
-            'allows_null' => false,
-        ]);
-
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_join',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Join',
-
-            // optional:
-            'date_picker_options' => [
-               'todayBtn' => 'linked',
-               'format'   => 'dd-mm-yyyy',
-            ],
-        ]);
-
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_permanent',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Tetap',
-
-            // optional:
-            'date_picker_options' => [
-               'todayBtn' => 'linked',
-               'format'   => 'dd-mm-yyyy',
-            ],
-        ]);
-
-        $this->crud->addField([
-            'label' => "Waktu Masa Kerja",
-            'name'  => "time_service",
-            'type'  => 'number',
-        ]);
-
-        $this->crud->addField([
-            'name' => 'unit_time_service',
-            'label' => 'Satuan Masa Kerja',
-            'type' => 'select2_from_array',
-            'options' => ['Bulan' => 'Bulan', 'Tahun' => 'Tahun'],
-            'allows_null' => false,
-        ]);
-
-        $this->crud->addField([
-            'label' => "Alamat Sesuai KTP",
-            'name'  => "address_id",
-            'type'  => 'textarea',
-        ]);
-
-        $this->crud->addField([
-            'label' => "Alamat Domisili",
-            'name'  => "address",
-            'type'  => 'textarea',
-        ]);
-
-        if (backpack_user()->role == 'hrd') {
+        if (backpack_user()->role != "staff") {
             $this->crud->addField([
-                'name' => 'Privilege',
-                'type' => 'hidden',
-                'value' => 0,
+                'name'  => "badgenumber",
+                'type'  => 'hidden',
+                'value' => $this->badgenumber(),
             ]);
-        } else {
+
             $this->crud->addField([
-                'name' => 'Privilege',
-                'label' => 'Role',
+                'label' => "Nama",
+                'name'  => "name",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "NIK",
+                'name'  => "employee_num",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'defaultdeptid',
+                'label' => 'Departemen',
                 'type' => 'select2_from_array',
-                'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
+                'options' => Department::pluck('DeptName', 'DeptID'),
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name' => 'position_id',
+                'label' => 'Jabatan',
+                'type' => 'select2_from_array',
+                'options' => Position::pluck('name', 'id'),
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tempat Lahir",
+                'name'  => "place_of_birth",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_birth',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Lahir',
+
+                // optional:
+                // 'date_picker_options' => [
+                //    'todayBtn' => 'linked',
+                //    'format'   => 'dd-mm-yyyy',
+                // ],
+            ]);
+
+            $this->crud->addField([
+                'name' => 'Gender',
+                'label' => 'Jenis Kelamin',
+                'type' => 'select2_from_array',
+                'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tingkat Pendidikan",
+                'name'  => "degree",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Kejuruan Pendidikan",
+                'name'  => "vocational",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Nama Sekolah/Universitas",
+                'name'  => "university",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'work_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Tetap' => 'Tetap', 'Kontrak' => 'Kontrak', 'Magang' => 'Magang'],
                 'allows_null' => false,
             ]);
-        }
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_join',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Join',
+
+                // optional:
+                'date_picker_options' => [
+                   'todayBtn' => 'linked',
+                   'format'   => 'dd-mm-yyyy',
+                ],
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_permanent',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Tetap',
+
+                // optional:
+                'date_picker_options' => [
+                   'todayBtn' => 'linked',
+                   'format'   => 'dd-mm-yyyy',
+                ],
+            ]);
+
+            $this->crud->addField([
+                'label' => "Waktu Masa Kerja",
+                'name'  => "time_service",
+                'type'  => 'number',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'unit_time_service',
+                'label' => 'Satuan Masa Kerja',
+                'type' => 'select2_from_array',
+                'options' => ['Bulan' => 'Bulan', 'Tahun' => 'Tahun'],
+                'allows_null' => false,
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Sesuai KTP",
+                'name'  => "address_id",
+                'type'  => 'textarea',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Domisili",
+                'name'  => "address",
+                'type'  => 'textarea',
+            ]);
+
+            if (backpack_user()->role != 'admin') {
+                $this->crud->addField([
+                    'name' => 'Privilege',
+                    'label' => 'Role',
+                    'type' => 'select2_from_array',
+                    'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
+                    'allows_null' => false,
+                ]);
+            } else {
+                $this->crud->addField([
+                    'name' => 'Privilege',
+                    'type' => 'hidden',
+                    'value' => 0,
+                ]);
+            }
 
 
-        $this->crud->addField([
-            'name' => 'SN',
-            'label' => 'Registrasi Perangkat',
-            'hint' => 'Pilih perangkat pendaftaran sidik jari pegawai',
-            'type' => 'select2_from_array',
-            'options' => Device::pluck('Alias', 'SN'),
-            'allows_null' => true,
-        ]);
+            $this->crud->addField([
+                'name' => 'SN',
+                'label' => 'Registrasi Perangkat',
+                'hint' => 'Pilih perangkat pendaftaran sidik jari pegawai',
+                'type' => 'select2_from_array',
+                'options' => Device::pluck('Alias', 'SN'),
+                'allows_null' => true,
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'cv',
-            'label'     => 'CV',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'cv',
+                'label'     => 'CV',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([
-            'label' => "No Idenstitas",
-            'name'  => "id_number",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "No Idenstitas",
+                'name'  => "id_number",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'ktp',
-            'label'     => 'Kartu Tanda Penduduk',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'ktp',
+                'label'     => 'Kartu Tanda Penduduk',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'ijazah',
-            'label'     => 'Ijazah',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'ijazah',
+                'label'     => 'Ijazah',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'kk',
-            'label'     => 'Kartu Keluarga',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'kk',
+                'label'     => 'Kartu Keluarga',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([
-            'label' => "No NPWP",
-            'name'  => "no_npwp",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "No NPWP",
+                'name'  => "no_npwp",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'npwp',
-            'label'     => 'Nomor Pokok Wajib Pajak',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'npwp',
+                'label'     => 'Nomor Pokok Wajib Pajak',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'submission_form',
-            'label'     => 'Form Aplikasi Calon Karyawan',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'submission_form',
+                'label'     => 'Form Aplikasi Calon Karyawan',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
 
-        $this->crud->addField([
-            'label' => "Alamat Email",
-            'name'  => "email",
-            'type'  => 'email',
-        ]);
+            $this->crud->addField([
+                'label' => "Alamat Email",
+                'name'  => "email",
+                'type'  => 'email',
+            ]);
 
-        $this->crud->addField([
-            'label' => "No Telpon",
-            'name'  => "contact_number",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "No Telpon",
+                'name'  => "contact_number",
+                'type'  => 'text',
+            ]);
 
-        if (backpack_user()->role == 'hrd' || backpack_user()->role == 'admin') {
+            if (backpack_user()->role == 'hrd' || backpack_user()->role == 'admin') {
+                $this->crud->addField([
+                    'name' => 'bpjs_kesehatan',
+                    'type' => 'text',
+                    'label' => 'BPJS Kesehatan',
+                ]);
+
+                $this->crud->addField([   // Upload
+                    'name'      => 'kesehatan',
+                    'label'     => 'Kartu BPJS Kesehatan',
+                    'type'      => 'upload',
+                    'upload'    => true,
+                    'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                    'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+                ]);
+
+                $this->crud->addField([
+                    'name' => 'bpjs_ketenagakerjaan',
+                    'type' => 'text',
+                    'label' => 'BPJS Ketenagakerjaan',
+                ]);
+
+                $this->crud->addField([   // Upload
+                    'name'      => 'ketenagakerjaan',
+                    'label'     => 'Kartu BPJS Ketenagakerjaan',
+                    'type'      => 'upload',
+                    'upload'    => true,
+                    'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                    'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+                ]);
+            }
+
+            $this->crud->addField([   // Upload
+                'name'      => 'sertifikasi',
+                'label'     => 'Berkas Sertifikasi',
+                'type'      => 'upload_multiple',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([   // radio
+                'name'        => 'active', // the name of the db column
+                'label'       => 'Status', // the input label
+                'type'        => 'radio',
+                'options'     => [
+                    // the key will be stored in the db, the value will be shown as label;
+                    0 => "Tidak Aktif",
+                    1 => "Aktif"
+                ],
+                // optional
+                'inline'      => true, // show the radios all on the same line?
+            ]);
+
+            $this->crud->addField([
+                'name'  => "DelTag",
+                'type'  => 'hidden',
+                'value' => '0',
+            ]);
+
+            $this->crud->addField([
+                'name'  => "RegisterOT",
+                'type'  => 'hidden',
+                'value' => '1',
+            ]);
+        }else{
+            $this->crud->addField([
+                'name'  => "badgenumber",
+                'type'  => 'hidden',
+                'value' => $this->badgenumber(),
+            ]);
+
+            $this->crud->addField([
+                'label' => "Nama",
+                'name'  => "name",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "NIK",
+                'name'  => "employee_num",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'defaultdeptid',
+                'label' => 'Departemen',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'position_id',
+                'label' => 'Jabatan',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tempat Lahir",
+                'name'  => "place_of_birth",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_birth',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Lahir',
+
+                // optional:
+                // 'date_picker_options' => [
+                //    'todayBtn' => 'linked',
+                //    'format'   => 'dd-mm-yyyy',
+                // ],
+            ]);
+
+            $this->crud->addField([
+                'name' => 'Gender',
+                'label' => 'Jenis Kelamin',
+                'type' => 'select2_from_array',
+                'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tingkat Pendidikan",
+                'name'  => "degree",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Kejuruan Pendidikan",
+                'name'  => "vocational",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Nama Sekolah/Universitas",
+                'name'  => "university",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'work_status',
+                'label' => 'Status',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_join',
+                'type'  => 'hidden',
+                'label' => 'Tanggal Join',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_permanent',
+                'type'  => 'hidden',
+                'label' => 'Tanggal Tetap',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Waktu Masa Kerja",
+                'name'  => "time_service",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'unit_time_service',
+                'label' => 'Satuan Masa Kerja',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Sesuai KTP",
+                'name'  => "address_id",
+                'type'  => 'textarea',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Domisili",
+                'name'  => "address",
+                'type'  => 'textarea',
+            ]);
+
+            if (backpack_user()->role != 'admin') {
+                $this->crud->addField([
+                    'name' => 'Privilege',
+                    'label' => 'Role',
+                    'type' => 'select2_from_array',
+                    'options' => ['0' => 'Normal', '1' => 'Register', '2' => 'Administrator', '3' => 'Supervisor'],
+                    'allows_null' => false,
+                ]);
+            } else {
+                $this->crud->addField([
+                    'name' => 'Privilege',
+                    'type' => 'hidden',
+                    'value' => 0,
+                ]);
+            }
+
+
+            $this->crud->addField([
+                'name' => 'SN',
+                'label' => 'Registrasi Perangkat',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'cv',
+                'label'     => 'CV',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([
+                'label' => "No Idenstitas",
+                'name'  => "id_number",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'ktp',
+                'label'     => 'Kartu Tanda Penduduk',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'ijazah',
+                'label'     => 'Ijazah',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'kk',
+                'label'     => 'Kartu Keluarga',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([
+                'label' => "No NPWP",
+                'name'  => "no_npwp",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'npwp',
+                'label'     => 'Nomor Pokok Wajib Pajak',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'submission_form',
+                'label'     => 'Form Aplikasi Calon Karyawan',
+                'type'      => 'hidden',
+                ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Email",
+                'name'  => "email",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "No Telpon",
+                'name'  => "contact_number",
+                'type'  => 'text',
+            ]);
+
             $this->crud->addField([
                 'name' => 'bpjs_kesehatan',
-                'type' => 'text',
+                'type' => 'hidden',
                 'label' => 'BPJS Kesehatan',
             ]);
 
             $this->crud->addField([   // Upload
                 'name'      => 'kesehatan',
                 'label'     => 'Kartu BPJS Kesehatan',
-                'type'      => 'upload',
-                'upload'    => true,
-                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+                'type'      => 'hidden',
             ]);
 
             $this->crud->addField([
                 'name' => 'bpjs_ketenagakerjaan',
-                'type' => 'text',
+                'type' => 'hidden',
                 'label' => 'BPJS Ketenagakerjaan',
             ]);
 
             $this->crud->addField([   // Upload
                 'name'      => 'ketenagakerjaan',
                 'label'     => 'Kartu BPJS Ketenagakerjaan',
-                'type'      => 'upload',
+                'type'      => 'hidden',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'sertifikasi',
+                'label'     => 'Berkas Sertifikasi',
+                'type'      => 'upload_multiple',
                 'upload'    => true,
                 'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
                 'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
             ]);
+
+            $this->crud->addField([   // radio
+                'name'        => 'active', // the name of the db column
+                'label'       => 'Status', // the input label
+                'type'        => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name'  => "DelTag",
+                'type'  => 'hidden',
+                'value' => '0',
+            ]);
+
+            $this->crud->addField([
+                'name'  => "RegisterOT",
+                'type'  => 'hidden',
+                'value' => '1',
+            ]);
         }
 
-        $this->crud->addField([   // Upload
-            'name'      => 'sertifikasi',
-            'label'     => 'Berkas Sertifikasi',
-            'type'      => 'upload_multiple',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
-        ]);
-
-        $this->crud->addField([   // radio
-            'name'        => 'active', // the name of the db column
-            'label'       => 'Status', // the input label
-            'type'        => 'radio',
-            'options'     => [
-                // the key will be stored in the db, the value will be shown as label;
-                0 => "Tidak Aktif",
-                1 => "Aktif"
-            ],
-            // optional
-            'inline'      => true, // show the radios all on the same line?
-        ]);
-
-        $this->crud->addField([
-            'name'  => "DelTag",
-            'type'  => 'hidden',
-            'value' => '0',
-        ]);
-
-        $this->crud->addField([
-            'name'  => "RegisterOT",
-            'type'  => 'hidden',
-            'value' => '1',
-        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -591,259 +868,491 @@ class EmployeeCrudController extends CrudController
     {
         CRUD::setValidation(EmployeeRequest::class);
 
-        $this->crud->addField([
-            'name'  => "Privilege",
-            'type'  => 'hidden',
-        ]);
+        if (backpack_user()->role != "staff") {
+            $this->crud->addField([
+                'name'  => "Privilege",
+                'type'  => 'hidden',
+            ]);
 
-        $this->crud->addField([
-            'label' => "Nama",
-            'name'  => "name",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "Nama",
+                'name'  => "name",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([
-            'label' => "NIK",
-            'name'  => "employee_num",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "NIK",
+                'name'  => "employee_num",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([
-            'name' => 'defaultdeptid',
-            'label' => 'Departemen',
-            'type' => 'select2_from_array',
-            'options' => Department::pluck('DeptName', 'DeptID'),
-            'allows_null' => true,
-        ]);
+            $this->crud->addField([
+                'name' => 'defaultdeptid',
+                'label' => 'Departemen',
+                'type' => 'select2_from_array',
+                'options' => Department::pluck('DeptName', 'DeptID'),
+                'allows_null' => true,
+            ]);
 
-        $this->crud->addField([
-            'name' => 'position_id',
-            'label' => 'Jabatan',
-            'type' => 'select2_from_array',
-            'options' => Position::pluck('name', 'id'),
-            'allows_null' => true,
-        ]);
+            $this->crud->addField([
+                'name' => 'position_id',
+                'label' => 'Jabatan',
+                'type' => 'select2_from_array',
+                'options' => Position::pluck('name', 'id'),
+                'allows_null' => true,
+            ]);
 
-        $this->crud->addField([
-            'label' => "Tempat Lahir",
-            'name'  => "place_of_birth",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "Tempat Lahir",
+                'name'  => "place_of_birth",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_birth',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Lahir',
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_birth',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Lahir',
 
-            // optional:
-            // 'date_picker_options' => [
-            //    'todayBtn' => 'linked',
-            //    'format'   => 'dd-mm-yyyy',
-            // ],
-        ]);
+                // optional:
+                // 'date_picker_options' => [
+                //    'todayBtn' => 'linked',
+                //    'format'   => 'dd-mm-yyyy',
+                // ],
+            ]);
 
-        $this->crud->addField([
-            'label' => "Tingkat Pendidikan",
-            'name'  => "degree",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'name' => 'Gender',
+                'label' => 'Jenis Kelamin',
+                'type' => 'select2_from_array',
+                'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
 
-        $this->crud->addField([
-            'label' => "Kejuruan Pendidikan",
-            'name'  => "vocational",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "Tingkat Pendidikan",
+                'name'  => "degree",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([
-            'label' => "Nama Sekolah/Universitas",
-            'name'  => "university",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "Kejuruan Pendidikan",
+                'name'  => "vocational",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([
-            'name' => 'work_status',
-            'label' => 'Status',
-            'type' => 'select2_from_array',
-            'options' => ['Tetap' => 'Tetap', 'Kontrak' => 'Kontrak', 'Magang' => 'Magang'],
-            'allows_null' => true,
-        ]);
+            $this->crud->addField([
+                'label' => "Nama Sekolah/Universitas",
+                'name'  => "university",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_join',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Join',
+            $this->crud->addField([
+                'name' => 'work_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Tetap' => 'Tetap', 'Kontrak' => 'Kontrak', 'Magang' => 'Magang'],
+                'allows_null' => true,
+            ]);
 
-            // optional:
-            'date_picker_options' => [
-               'todayBtn' => 'linked',
-               'format'   => 'dd-mm-yyyy',
-            ],
-        ]);
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_join',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Join',
 
-        $this->crud->addField([   // date_picker
-            'name'  => 'date_of_permanent',
-            'type'  => 'date_picker',
-            'label' => 'Tanggal Tetap',
+                // optional:
+                'date_picker_options' => [
+                   'todayBtn' => 'linked',
+                   'format'   => 'dd-mm-yyyy',
+                ],
+            ]);
 
-            // optional:
-            'date_picker_options' => [
-               'todayBtn' => 'linked',
-               'format'   => 'dd-mm-yyyy',
-            ],
-        ]);
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_permanent',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Tetap',
 
-        $this->crud->addField([
-            'label' => "Waktu Masa Kerja",
-            'name'  => "time_service",
-            'type'  => 'number',
-        ]);
+                // optional:
+                'date_picker_options' => [
+                   'todayBtn' => 'linked',
+                   'format'   => 'dd-mm-yyyy',
+                ],
+            ]);
 
-        $this->crud->addField([
-            'name' => 'unit_time_service',
-            'label' => 'Satuan Masa Kerja',
-            'type' => 'select2_from_array',
-            'options' => ['Bulan' => 'Bulan', 'Tahun' => 'Tahun'],
-            'allows_null' => true,
-        ]);
+            $this->crud->addField([
+                'label' => "Waktu Masa Kerja",
+                'name'  => "time_service",
+                'type'  => 'number',
+            ]);
 
-        $this->crud->addField([
-            'label' => "Alamat Sesuai KTP",
-            'name'  => "address_id",
-            'type'  => 'textarea',
-        ]);
+            $this->crud->addField([
+                'name' => 'unit_time_service',
+                'label' => 'Satuan Masa Kerja',
+                'type' => 'select2_from_array',
+                'options' => ['Bulan' => 'Bulan', 'Tahun' => 'Tahun'],
+                'allows_null' => true,
+            ]);
 
-        $this->crud->addField([
-            'label' => "Alamat Domisili",
-            'name'  => "address",
-            'type'  => 'textarea',
-        ]);
+            $this->crud->addField([
+                'label' => "Alamat Sesuai KTP",
+                'name'  => "address_id",
+                'type'  => 'textarea',
+            ]);
 
-        $this->crud->addField([
-            'name' => 'SN',
-            'type' => 'hidden',
-        ]);
+            $this->crud->addField([
+                'label' => "Alamat Domisili",
+                'name'  => "address",
+                'type'  => 'textarea',
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'cv',
-            'label'     => 'CV',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([
+                'name' => 'SN',
+                'type' => 'hidden',
+            ]);
 
-        $this->crud->addField([
-            'label' => "No Idenstitas",
-            'name'  => "id_number",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'cv',
+                'label'     => 'CV',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'ktp',
-            'label'     => 'Kartu Tanda Penduduk',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([
+                'label' => "No Idenstitas",
+                'name'  => "id_number",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'ijazah',
-            'label'     => 'Ijazah',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'ktp',
+                'label'     => 'Kartu Tanda Penduduk',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'kk',
-            'label'     => 'Kartu Keluarga',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'ijazah',
+                'label'     => 'Ijazah',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([
-            'label' => "No NPWP",
-            'name'  => "no_npwp",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'kk',
+                'label'     => 'Kartu Keluarga',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'npwp',
-            'label'     => 'Nomor Pokok Wajib Pajak',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([
+                'label' => "No NPWP",
+                'name'  => "no_npwp",
+                'type'  => 'text',
+            ]);
 
-        $this->crud->addField([   // Upload
-            'name'      => 'submission_form',
-            'label'     => 'Form Aplikasi Calon Karyawan',
-            'type'      => 'upload',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'npwp',
+                'label'     => 'Nomor Pokok Wajib Pajak',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([
-            'label' => "Alamat Email",
-            'name'  => "email",
-            'type'  => 'email',
-        ]);
+            $this->crud->addField([   // Upload
+                'name'      => 'submission_form',
+                'label'     => 'Form Aplikasi Calon Karyawan',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
 
-        $this->crud->addField([
-            'label' => "No Telpon",
-            'name'  => "contact_number",
-            'type'  => 'text',
-        ]);
+            $this->crud->addField([
+                'label' => "Alamat Email",
+                'name'  => "email",
+                'type'  => 'email',
+            ]);
 
-        if (backpack_user()->role == 'hrd' || backpack_user()->role == 'admin') {
+            $this->crud->addField([
+                'label' => "No Telpon",
+                'name'  => "contact_number",
+                'type'  => 'text',
+            ]);
+
+            if (backpack_user()->role == 'hrd' || backpack_user()->role == 'admin') {
+                $this->crud->addField([
+                    'name' => 'bpjs_kesehatan',
+                    'type' => 'text',
+                    'label' => 'BPJS Kesehatan',
+                ]);
+
+                $this->crud->addField([   // Upload
+                    'name'      => 'kesehatan',
+                    'label'     => 'Kartu BPJS Kesehatan',
+                    'type'      => 'upload',
+                    'upload'    => true,
+                    'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                ]);
+
+                $this->crud->addField([
+                    'name' => 'bpjs_ketenagakerjaan',
+                    'type' => 'text',
+                    'label' => 'BPJS Ketenagakerjaan',
+                ]);
+
+                $this->crud->addField([   // Upload
+                    'name'      => 'ketenagakerjaan',
+                    'label'     => 'Kartu BPJS Ketenagakerjaan',
+                    'type'      => 'upload',
+                    'upload'    => true,
+                    'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                ]);
+            }
+
+            $this->crud->addField([   // Upload
+                'name'      => 'sertifikasi',
+                'label'     => 'Berkas Sertifikasi',
+                'type'      => 'upload_multiple',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([   // radio
+                'name'        => 'active', // the name of the db column
+                'label'       => 'Status', // the input label
+                'type'        => 'radio',
+                'options'     => [
+                    // the key will be stored in the db, the value will be shown as label;
+                    0 => "Tidak Aktif",
+                    1 => "Aktif"
+                ],
+                // optional
+                'inline'      => true, // show the radios all on the same line?
+            ]);
+        }else{
+            $this->crud->addField([
+                'name'  => "Privilege",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Nama",
+                'name'  => "name",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "NIK",
+                'name'  => "employee_num",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'defaultdeptid',
+                'label' => 'Departemen',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'position_id',
+                'label' => 'Jabatan',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tempat Lahir",
+                'name'  => "place_of_birth",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_birth',
+                'type'  => 'date_picker',
+                'label' => 'Tanggal Lahir',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'Gender',
+                'label' => 'Jenis Kelamin',
+                'type' => 'select2_from_array',
+                'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'label' => "Tingkat Pendidikan",
+                'name'  => "degree",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Kejuruan Pendidikan",
+                'name'  => "vocational",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Nama Sekolah/Universitas",
+                'name'  => "university",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'work_status',
+                'label' => 'Status',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_join',
+                'type'  => 'hidden',
+                'label' => 'Tanggal Join',
+            ]);
+
+            $this->crud->addField([   // date_picker
+                'name'  => 'date_of_permanent',
+                'type'  => 'hidden',
+                'label' => 'Tanggal Tetap',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Waktu Masa Kerja",
+                'name'  => "time_service",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'unit_time_service',
+                'label' => 'Satuan Masa Kerja',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Sesuai KTP",
+                'name'  => "address_id",
+                'type'  => 'textarea',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Domisili",
+                'name'  => "address",
+                'type'  => 'textarea',
+            ]);
+
+            $this->crud->addField([
+                'name' => 'SN',
+                'type' => 'hidden',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'cv',
+                'label'     => 'CV',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([
+                'label' => "No Idenstitas",
+                'name'  => "id_number",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'ktp',
+                'label'     => 'Kartu Tanda Penduduk',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'ijazah',
+                'label'     => 'Ijazah',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'kk',
+                'label'     => 'Kartu Keluarga',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([
+                'label' => "No NPWP",
+                'name'  => "no_npwp",
+                'type'  => 'text',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'npwp',
+                'label'     => 'Nomor Pokok Wajib Pajak',
+                'type'      => 'upload',
+                'upload'    => true,
+                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'submission_form',
+                'label'     => 'Form Aplikasi Calon Karyawan',
+                'type'      => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "Alamat Email",
+                'name'  => "email",
+                'type'  => 'hidden',
+            ]);
+
+            $this->crud->addField([
+                'label' => "No Telpon",
+                'name'  => "contact_number",
+                'type'  => 'text',
+            ]);
+
             $this->crud->addField([
                 'name' => 'bpjs_kesehatan',
-                'type' => 'text',
+                'type' => 'hidden',
                 'label' => 'BPJS Kesehatan',
             ]);
 
             $this->crud->addField([   // Upload
                 'name'      => 'kesehatan',
                 'label'     => 'Kartu BPJS Kesehatan',
-                'type'      => 'upload',
-                'upload'    => true,
-                'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+                'type'      => 'hidden',
             ]);
 
             $this->crud->addField([
                 'name' => 'bpjs_ketenagakerjaan',
-                'type' => 'text',
+                'type' => 'hidden',
                 'label' => 'BPJS Ketenagakerjaan',
             ]);
 
             $this->crud->addField([   // Upload
                 'name'      => 'ketenagakerjaan',
                 'label'     => 'Kartu BPJS Ketenagakerjaan',
-                'type'      => 'upload',
+                'type'      => 'hidden',
+            ]);
+
+            $this->crud->addField([   // Upload
+                'name'      => 'sertifikasi',
+                'label'     => 'Berkas Sertifikasi',
+                'type'      => 'upload_multiple',
                 'upload'    => true,
                 'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
             ]);
+
+            $this->crud->addField([   // radio
+                'name'        => 'active', // the name of the db column
+                'label'       => 'Status', // the input label
+                'type'        => 'hidden',
+            ]);
         }
-
-        $this->crud->addField([   // Upload
-            'name'      => 'sertifikasi',
-            'label'     => 'Berkas Sertifikasi',
-            'type'      => 'upload_multiple',
-            'upload'    => true,
-            'disk'      => 'public', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
-        ]);
-
-        $this->crud->addField([   // radio
-            'name'        => 'active', // the name of the db column
-            'label'       => 'Status', // the input label
-            'type'        => 'radio',
-            'options'     => [
-                // the key will be stored in the db, the value will be shown as label;
-                0 => "Tidak Aktif",
-                1 => "Aktif"
-            ],
-            // optional
-            'inline'      => true, // show the radios all on the same line?
-        ]);
     }
 }
