@@ -114,6 +114,28 @@ class EmployeeCrudController extends CrudController
         ]);
 
         $this->crud->addColumn([
+            'name'        => 'Gender',
+            'label'       => 'Jenis Kelamin',
+            'type'        => 'radio',
+            'options'     => [
+                'M' => 'Laki-laki',
+                'F' => 'Perempuan'
+            ]
+        ]);
+
+        $this->crud->addColumn([
+            'type'           => 'text',
+            'name'           => 'religion',
+            'label'          => 'Agama',
+        ]);
+
+        $this->crud->addColumn([
+            'type'           => 'text',
+            'name'           => 'marital_status',
+            'label'          => 'Status Perkawinan',
+        ]);
+
+        $this->crud->addColumn([
             'type'           => 'text',
             'name'           => 'degree',
             'label'          => 'Tingkat Pendidikan',
@@ -335,6 +357,22 @@ class EmployeeCrudController extends CrudController
                 'label' => 'Jenis Kelamin',
                 'type' => 'select2_from_array',
                 'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name'  =>  'religion',
+                'label' =>  'Agama',
+                'type'  => 'select2_from_array',
+                'options'   =>  ['Islam' => 'Islam', 'Kristen Protestan' => 'Kristen Protestan', 'Kristen Katolik' => 'Kristen Katolik', 'Hindu' => 'Hindu', 'Budha' => 'Budha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name' => 'marital_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Lajang' => 'Lajang', 'Menikah' => 'Menikah', 'Cerai' => 'Cerai', 'Lainya' => 'Lainya'],
                 'allows_null' => true,
             ]);
 
@@ -641,6 +679,22 @@ class EmployeeCrudController extends CrudController
             ]);
 
             $this->crud->addField([
+                'name'  =>  'religion',
+                'label' =>  'Agama',
+                'type'  => 'select2_from_array',
+                'options'   =>  ['Islam' => 'Islam', 'Kristen Protestan' => 'Kristen Protestan', 'Kristen Katolik' => 'Kristen Katolik', 'Hindu' => 'Hindu', 'Budha' => 'Budha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name' => 'marital_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Lajang' => 'Lajang', 'Menikah' => 'Menikah', 'Cerai' => 'Cerai', 'Lainya' => 'Lainya'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
                 'label' => "Tingkat Pendidikan",
                 'name'  => "degree",
                 'type'  => 'text',
@@ -929,6 +983,22 @@ class EmployeeCrudController extends CrudController
             ]);
 
             $this->crud->addField([
+                'name'  =>  'religion',
+                'label' =>  'Agama',
+                'type'  => 'select2_from_array',
+                'options'   =>  ['Islam' => 'Islam', 'Kristen Protestan' => 'Kristen Protestan', 'Kristen Katolik' => 'Kristen Katolik', 'Hindu' => 'Hindu', 'Budha' => 'Budha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name' => 'marital_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Lajang' => 'Lajang', 'Menikah' => 'Menikah', 'Cerai' => 'Cerai', 'Lainya' => 'Lainya'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
                 'label' => "Tingkat Pendidikan",
                 'name'  => "degree",
                 'type'  => 'text',
@@ -1178,6 +1248,22 @@ class EmployeeCrudController extends CrudController
                 'label' => 'Jenis Kelamin',
                 'type' => 'select2_from_array',
                 'options' => ['M' => 'Laki-laki', 'F' => 'Perempuan'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name'  =>  'religion',
+                'label' =>  'Agama',
+                'type'  => 'select2_from_array',
+                'options'   =>  ['Islam' => 'Islam', 'Kristen Protestan' => 'Kristen Protestan', 'Kristen Katolik' => 'Kristen Katolik', 'Hindu' => 'Hindu', 'Budha' => 'Budha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => true,
+            ]);
+
+            $this->crud->addField([
+                'name' => 'marital_status',
+                'label' => 'Status',
+                'type' => 'select2_from_array',
+                'options' => ['Lajang' => 'Lajang', 'Menikah' => 'Menikah', 'Cerai' => 'Cerai', 'Lainya' => 'Lainya'],
                 'allows_null' => true,
             ]);
 
