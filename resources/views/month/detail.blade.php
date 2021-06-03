@@ -157,7 +157,9 @@
                                                 {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
                                             </td>
                                             <td style="text-align: center;">
-                                                {{@$keterangan->keterangan}} {{@$keterangan->keterangan_tambahan}}
+                                                @if (@$keterangan->status != "Decline")
+                                                    {{@$keterangan->keterangan}} {{@$keterangan->keterangan_tambahan}}
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
