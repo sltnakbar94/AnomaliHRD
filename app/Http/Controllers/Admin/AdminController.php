@@ -72,4 +72,15 @@ class AdminController extends Controller
 
         $this->data['perusahaan'] = $employees;
     }
+
+    public function absenLapangan()
+    {
+        $this->data['title'] = trans('Absen Lapangan'); // set the page title
+        $this->data['breadcrumbs'] = [
+            trans('backpack::crud.admin')     => backpack_url('absen-lapangan'),
+            trans('Absen Lapangan') => false,
+        ];
+
+        return view(backpack_view('absen-lapangan'), $this->data);
+    }
 }

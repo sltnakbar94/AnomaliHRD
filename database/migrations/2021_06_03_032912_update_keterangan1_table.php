@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateKeteranganTable extends Migration
+class UpdateKeterangan1Table extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class UpdateKeteranganTable extends Migration
     public function up()
     {
         Schema::table('keterangan', function (Blueprint $table) {
-            $table->string('keterangan_tambahan')->nullable();
-            $table->string('status')->nullable();
-            $table->string('upload_data')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
         });
     }
 
@@ -29,9 +28,8 @@ class UpdateKeteranganTable extends Migration
     {
         Schema::table('keternagan', function (Blueprint $table) {
             $table->dropColumn([
-                'keterangan_tambahan',
-                'status',
-                'upload_data',
+                'lat',
+                'lng',
             ]);
         });
     }
