@@ -125,7 +125,7 @@ class KeteranganCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'name' => 'keterngan_tambahan',
+            'name' => 'keterangan_tambahan',
             'label' => 'Keterangan Tambahan',
             'type' => 'text'
         ]);
