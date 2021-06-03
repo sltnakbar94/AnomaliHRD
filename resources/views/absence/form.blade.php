@@ -10,7 +10,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button onclick="getLocation()">Try It</button>
                     <form class="col-md-12" action="{{ backpack_url('store-absen-lapangan') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" value="{{ backpack_user()->Employee->userid }}" name="userid">
                         <div class="form-group">
@@ -28,18 +27,33 @@
                                 <input type="text" class="form-control" name="lng" id="lng" value="{{ old('lng') }}" readonly="readonly">
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Kegiatan</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                        <div class="form-group">
+                            <label class="control-label" for="keterangan_tambahan">Kegiatan</label>
+
+                            <div>
+                                <input type="text" class="form-control{{ $errors->has('keterangan_tambahan') ? ' is-invalid' : '' }}" name="keterangan_tambahan" id="keterangan_tambahan" value="{{ old('keterangan_tambahan') }}" required>
+                                @if ($errors->has('keterangan_tambahan'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('keterangan_tambahan') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default"> Ambil Foto</span>
-                            {{-- <input type='file' id="imgInp" class="form-control" /> --}}
-                            <input type="file" id="imgInp" class="form-control" accept="image/*;capture=camera">
+
+                        <div class="form-group">
+                            <label class="control-label" for="upload_data">Foto</label>
+
+                            <div>
+                                <input type="file" name="upload_data" accept="image/*" capture="user" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}">
+                                @if ($errors->has('upload_data'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('upload_data') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <img id="blah" src="#" alt="your image" />
-                        </div>
+
                         <div class="input-group mb-3">
                             <button type="submit" class="btn btn-primary" id="add-buton-out">SUBMIT</button>
                         </div>
