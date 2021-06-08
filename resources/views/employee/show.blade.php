@@ -134,9 +134,11 @@
                                 <tr>
                                     <td>Sertifikasi</td>
                                     <td>
-                                    @foreach (@$crud->entry->sertifikasi as $sertifikat)
-                                        <iframe src="{{asset('storage/'.@$sertifikat)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe><br>
-                                    @endforeach
+                                    @if (!empty(@$crud->entry->sertifikasi))
+                                        @foreach (@$crud->entry->sertifikasi as $sertifikat)
+                                            <iframe src="{{asset('storage/'.@$sertifikat)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe><br>
+                                        @endforeach
+                                    @endif
                                     </td>
                                 </tr>
                             </table>
