@@ -48,7 +48,7 @@
                             <label class="control-label" for="upload_data">Foto</label>
 
                             <div>
-                                <input type="file" name="upload_data" accept="image/*" capture="user" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}">
+                                <input type="file" name="upload_data" accept="image/*" capture="user" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" required>
                                 @if ($errors->has('upload_data'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('upload_data') }}</strong>
