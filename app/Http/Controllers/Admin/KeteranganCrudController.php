@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\KeteranganRequest;
+use App\Models\Checkinout;
 use App\Models\Employee;
 use App\Models\Keterangan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -190,6 +191,11 @@ class KeteranganCrudController extends CrudController
     {
         $keterangan = Keterangan::find($id);
         $keterangan->status = "Decline";
+        if (!empty($keterangan->lat) && !empty($keterangan->lng)) {
+            $find = Checkinout::where('userid', '=', $keterangan->userid)->where('checktime', '=', $keterangan->created_at)->first();
+            $delete = Checkinout::find($find->id);
+            $delete->delete();
+        }
         $keterangan->update();
 
         \Alert::add('success', 'Berhasil menolak Keterangan')->flash();
