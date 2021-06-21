@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Keterangan;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,5 +83,17 @@ class AdminController extends Controller
         ];
 
         return view(backpack_view('absen-lapangan'), $this->data);
+    }
+
+    public function storeAbsenLapangan(Request $request)
+    {
+        dd($request->all(), date("Y-m-d", strtotime(now())));
+        $keterangan = new Keterangan();
+        $keterangan->userid = $request->userid;
+        $keterangan->date = date("Y-m-d", strtotime(now()));
+        $keterangan->keterangan = "Tugas luar kantor";
+        $keterangan->keterangan_tambahan = $request->keterangan_tambahan;
+        $keterangan->lat = $request->lat;
+        $keterangan->lng = $request->lng;
     }
 }

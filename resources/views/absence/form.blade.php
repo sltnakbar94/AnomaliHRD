@@ -11,6 +11,7 @@
                 </div>
                 <div class="row">
                     <form class="col-md-12" action="{{ backpack_url('store-absen-lapangan') }}" method="post" enctype="multipart/form-data">
+                        @csrf
                         <input type="hidden" value="{{ backpack_user()->Employee->userid }}" name="userid">
                         <div class="form-group">
                             <label class="control-label" for="lat">Latitude</label>

@@ -16,6 +16,7 @@ Route::group([
 ], function () { // custom admin routes
     Route::get('dashboard', 'AdminController@dashboard')->name('backpack.dashboard');
     Route::get('absen-lapangan', 'AdminController@absenLapangan')->name('backpack.absen-lapangan');
+    Route::post('store-absen-lapangan', 'AdminController@storeAbsenLapangan')->name('backpack.store-absen-lapangan');
     Route::crud('role', 'RoleCrudController');
     Route::crud('user', 'UserCrudController');
     Route::crud('reportabsence', 'ReportAbsenceCrudController');
