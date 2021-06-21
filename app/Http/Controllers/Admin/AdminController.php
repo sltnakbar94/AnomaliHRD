@@ -89,7 +89,6 @@ class AdminController extends Controller
 
     public function storeAbsenLapangan(Request $request)
     {
-        dd(date("Y-m-d H:i:s", strtotime(now())), date('Y-m-d H:i:s'));
         $keterangan = new Keterangan();
         $keterangan->userid = $request->userid;
         $keterangan->date = date("Y-m-d", strtotime(now()));
