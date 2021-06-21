@@ -81,7 +81,7 @@
                                         @if (!empty(@$crud->entry->upload_data))
                                             <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:1400px; height:600px;" frameborder="0"></iframe><br>
                                         @else
-                                            <img src="{{asset('icon/no_data.jpg')}}" alt="No Data" width="600" height="600"><br>
+                                            <img src="{{asset('icon/no_data.jpg')}}" alt="No Data" width="400" height="400"><br>
                                         @endif
                                     </td>
                                 </tr>
