@@ -78,7 +78,7 @@
                                 <tr>
                                     <td>Upload Bukti</td>
                                     <td>
-                                        <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe><br>
+                                        <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:1000px; height:1000px;" frameborder="0"></iframe><br>
                                     </td>
                                 </tr>
                                 @if (!empty(@$crud->entry->lat) && !empty(@$crud->entry->lng))
