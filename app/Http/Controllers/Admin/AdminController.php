@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Checkinout;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Keterangan;
+use App\Models\Userinfo;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -87,13 +89,32 @@ class AdminController extends Controller
 
     public function storeAbsenLapangan(Request $request)
     {
-        dd($request->all(), date("Y-m-d", strtotime(now())));
         $keterangan = new Keterangan();
         $keterangan->userid = $request->userid;
         $keterangan->date = date("Y-m-d", strtotime(now()));
         $keterangan->keterangan = "Tugas luar kantor";
+        $keterangan->status = "Approve";
+        $keterangan->keterangan_tambahan = $request->keterangan_tambahan;
         $keterangan->keterangan_tambahan = $request->keterangan_tambahan;
         $keterangan->lat = $request->lat;
         $keterangan->lng = $request->lng;
+        if($request->hasFile('upload_data')) {
+            $file = $request->file('upload_data');
+            $path = $file->storeAs('absen-lapangan', strtolower($keterangan->userid) .'-' . date('Ymdhis') . '.' . $file->getClientOriginalExtension() , 'public');
+            $keterangan->upload_data = $path;
+        }
+        $absence = new Checkinout();
+        $absence->userid = $request->userid;
+        $absence->checktime = date("Y-m-d H:i:s", strtotime(now()));
+        $absence->checktype = "0";
+        $absence->verifycode = 1;
+        $absence->SN = Userinfo::find($request->userid)->SN;
+        $absence->sensorid = Checkinout::where('SN', '=', Userinfo::find($request->userid)->SN)->first()->sensorid;
+        $absence->WorkCode = "";
+        $absence->Reserved = "1";
+        $keterangan->save();
+        $absence->save();
+        \Alert::add('success', 'Berhasil melakukan Absen')->flash();
+        return redirect()->route('backpack.dashboard');
     }
 }

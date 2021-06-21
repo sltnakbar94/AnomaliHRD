@@ -17,9 +17,9 @@ class Userinfo extends Model
     */
 
     protected $table = 'userinfo';
-    // protected $primaryKey = 'userid';
+    protected $primaryKey = 'userid';
     // public $timestamps = false;
-    protected $guarded = ['id'];
+    protected $guarded = ['userid'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];

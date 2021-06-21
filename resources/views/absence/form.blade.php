@@ -13,19 +13,21 @@
                     <form class="col-md-12" action="{{ backpack_url('store-absen-lapangan') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" value="{{ backpack_user()->Employee->userid }}" name="userid">
-                        <div class="form-group">
-                            <label class="control-label" for="lat">Latitude</label>
+                        <div> {{-- bila diminta lat&lng untuk di hidden tolong tambahkan --> style="display: none" <-- pada div dikiri --}}
+                            <div class="form-group">
+                                <label class="control-label" for="lat">Latitude</label>
 
-                            <div>
-                                <input type="text" class="form-control" name="lat" id="lat" value="{{ old('lat') }}" readonly="readonly">
+                                <div>
+                                    <input type="text" class="form-control" name="lat" id="lat" value="{{ old('lat') }}" readonly="readonly" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="lng">Longitude</label>
+                            <div class="form-group">
+                                <label class="control-label" for="lng">Longitude</label>
 
-                            <div>
-                                <input type="text" class="form-control" name="lng" id="lng" value="{{ old('lng') }}" readonly="readonly">
+                                <div>
+                                    <input type="text" class="form-control" name="lng" id="lng" value="{{ old('lng') }}" readonly="readonly" required>
+                                </div>
                             </div>
                         </div>
 

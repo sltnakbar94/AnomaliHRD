@@ -26,6 +26,8 @@ Route::group([
     Route::post('detailket/ket', 'ReportMonthAbsenceCrudController@ket');
     Route::crud('employee', 'EmployeeCrudController');
     Route::crud('keterangan', 'KeteranganCrudController');
+    Route::get('keterangan/{id}/approve', 'KeteranganCrudController@approve');
+    Route::get('keterangan/{id}/decline', 'KeteranganCrudController@decline');
     Route::crud('position', 'PositionCrudController');
     Route::get('charts/employee', 'Charts\EmployeeChartController@response')->name('charts.employee.index');
     Route::crud('generateuser', 'GenerateUserCrudController');

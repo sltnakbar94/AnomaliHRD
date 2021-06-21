@@ -81,7 +81,47 @@
                                         <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:max-content; height:max-content;" frameborder="0"></iframe><br>
                                     </td>
                                 </tr>
+                                @if (!empty(@$crud->entry->lat) && !empty(@$crud->entry->lng))
+                                    <tr>
+                                        <td>Titik Lokasi</td>
+                                        <td>
+                                            <p><a href="https://www.google.com/maps/?q={{@$crud->entry->lat}},{{@$crud->entry->lng}}" target="_blank">{{@$crud->entry->lat}},{{@$crud->entry->lng}}</a></p>
+                                        </td>
+                                    </tr>
+                                @endif
                             </table>
+                            @if (@$crud->entry->status == "Submit")
+                                <div class="col-md-6">
+                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/approve') }}" style="text-decoration:none;">
+                                        <div class="alert alert-success text-center">
+                                        <h3><strong>Approve</strong></h3>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/decline') }}" style="text-decoration:none;">
+                                        <div class="alert alert-danger text-center">
+                                        <h3><strong>Decline</strong></h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            @elseif (@$crud->entry->status == "Approve")
+                                <div class="col-md-12">
+                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/decline') }}" style="text-decoration:none;">
+                                        <div class="alert alert-danger text-center">
+                                        <h3><strong>Decline</strong></h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            @elseif (@$crud->entry->status == "Decline")
+                                <div class="col-md-12">
+                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/approve') }}" style="text-decoration:none;">
+                                        <div class="alert alert-success text-center">
+                                        <h3><strong>Approve</strong></h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

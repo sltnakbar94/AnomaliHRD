@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\KeteranganRequest;
 use App\Models\Employee;
+use App\Models\Keterangan;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -173,5 +174,25 @@ class KeteranganCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function approve($id)
+    {
+        $keterangan = Keterangan::find($id);
+        $keterangan->status = "Approve";
+        $keterangan->update();
+
+        \Alert::add('success', 'Berhasil menyetujui Keterangan')->flash();
+        return redirect()->back();
+    }
+
+    public function decline($id)
+    {
+        $keterangan = Keterangan::find($id);
+        $keterangan->status = "Decline";
+        $keterangan->update();
+
+        \Alert::add('success', 'Berhasil menolak Keterangan')->flash();
+        return redirect()->back();
     }
 }

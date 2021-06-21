@@ -23,7 +23,7 @@ class Checkinout extends Model
 
     protected $table = 'checkinout';
     // protected $primaryKey = 'userid';
-    // public $timestamps = false;
+    public $timestamps = false;
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
