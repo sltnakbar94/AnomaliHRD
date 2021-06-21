@@ -79,9 +79,9 @@
                                     <td>Upload Bukti</td>
                                     <td>
                                         @if (!empty(@$crud->entry->upload_data))
-                                            <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:1400px; height:600px;" frameborder="0"></iframe><br>
+                                            <img src="{{asset('storage/'.@$crud->entry->upload_data)}}" width="600" height="600"><br>
                                         @else
-                                            <strong>Tidak ada bukti</strong>
+                                            <img src="{{asset('icon/no_data.jpg')}}" alt="No Data" width="600" height="600"><br>
                                         @endif
                                     </td>
                                 </tr>
