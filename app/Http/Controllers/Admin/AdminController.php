@@ -89,6 +89,12 @@ class AdminController extends Controller
 
     public function storeAbsenLapangan(Request $request)
     {
+        $cek1 = Checkinout::where('userid', '=', $request->userid)->where('checktime', '=', date("Y-m-d H:i:s", strtotime(now())))->first();
+        $cek2 = Keterangan::where('userid', '=', $request->userid)->where('keterangan_tambahan', '=', $request->keterangan_tambahan)->first();
+        if (!empty($cek1) && !empty($cek2)) {
+            \Alert::add('danger', 'SABAR BOSS, KLIK NYA SANTAI AJA')->flash();
+        return redirect()->route('backpack.dashboard');
+        }
         $keterangan = new Keterangan();
         $keterangan->userid = $request->userid;
         $keterangan->date = date("Y-m-d", strtotime(now()));
