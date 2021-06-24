@@ -129,7 +129,9 @@
                                             $sum_hour += $hour;
                                             $sum_minute += $minute;
                                         @endphp
-                                        @if (@$hour < 9)
+                                        @if (@$masuk > "10:00:00")
+                                            <tr style="background-color: #ff4d4d">
+                                        @elseif (@$hour < 9)
                                             @if (@$keterangan->status == "Approve")
                                                 <tr style="background-color: #07c12a">
                                             @else
@@ -157,8 +159,10 @@
                                                 {{@$hour}} Jam {{(@$minute/60-@$hour)*60}} Menit
                                             </td>
                                             <td style="text-align: center;">
-                                                @if (@$keterangan->status != "Decline")
+                                                @if (!empty(@$keterangan) && @$keterangan->status != "Decline")
                                                     {{@$keterangan->keterangan}} {{@$keterangan->keterangan_tambahan}}
+                                                @elseif (@$masuk > "10:00:00")
+                                                    Telat
                                                 @endif
                                             </td>
                                         </tr>
