@@ -162,7 +162,7 @@
                                                 @if (!empty(@$keterangan) && @$keterangan->status != "Decline")
                                                     {{@$keterangan->keterangan}} {{@$keterangan->keterangan_tambahan}}
                                                 @elseif (@$masuk > "10:00:00")
-                                                    Telat
+                                                    Terlambat Masuk Kantor
                                                 @endif
                                             </td>
                                         </tr>
