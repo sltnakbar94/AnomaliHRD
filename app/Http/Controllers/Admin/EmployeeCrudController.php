@@ -227,7 +227,7 @@ class EmployeeCrudController extends CrudController
 
         $this->crud->addColumn([
             'type'           => 'email',
-            'name'           => 'emial',
+            'name'           => 'email',
             'label'          => 'Alamat Email',
         ]);
 
