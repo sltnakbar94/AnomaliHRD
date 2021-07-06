@@ -111,22 +111,24 @@
                                         </a>
                                     </div>
                                 </div>
-                            @elseif (@$crud->entry->status == "Approve")
-                                <div class="col-md-12">
-                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/decline') }}" style="text-decoration:none;">
-                                        <div class="alert alert-danger text-center">
-                                        <h3><strong>Decline</strong></h3>
-                                        </div>
-                                    </a>
-                                </div>
-                            @elseif (@$crud->entry->status == "Decline")
-                                <div class="col-md-12">
-                                    <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/approve') }}" style="text-decoration:none;">
-                                        <div class="alert alert-success text-center">
-                                        <h3><strong>Approve</strong></h3>
-                                        </div>
-                                    </a>
-                                </div>
+                            @if (backpack_user()->role != 'staff')
+                                @elseif (@$crud->entry->status == "Approve")
+                                    <div class="col-md-12">
+                                        <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/decline') }}" style="text-decoration:none;">
+                                            <div class="alert alert-danger text-center">
+                                            <h3><strong>Decline</strong></h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @elseif (@$crud->entry->status == "Decline")
+                                    <div class="col-md-12">
+                                        <a href="{{ backpack_url('keterangan/'.@$crud->entry->id.'/approve') }}" style="text-decoration:none;">
+                                            <div class="alert alert-success text-center">
+                                            <h3><strong>Approve</strong></h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         </div>
                     </div>
