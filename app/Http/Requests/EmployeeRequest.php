@@ -34,9 +34,9 @@ class EmployeeRequest extends FormRequest
             'ijazah' => 'mimes:jpeg,bmp,png,svg,pdf',
             'kk' => 'mimes:jpeg,bmp,png,svg,pdf',
             'npwp' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'submission_form' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'kesehatan' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'ketenagakerjaan' => 'mimes:jpeg,bmp,png,svg,pdf',
+            // 'submission_form' => 'mimes:jpeg,bmp,png,svg,pdf',
+            // 'kesehatan' => 'mimes:jpeg,bmp,png,svg,pdf',
+            // 'ketenagakerjaan' => 'mimes:jpeg,bmp,png,svg,pdf',
         ];
     }
 
