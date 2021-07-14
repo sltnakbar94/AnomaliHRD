@@ -29,14 +29,14 @@ class EmployeeRequest extends FormRequest
             'defaultdeptid' => 'required',
             'name' => 'required',
             'SN' => 'required',
-            'cv' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'ktp' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'ijazah' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'kk' => 'mimes:jpeg,bmp,png,svg,pdf',
-            'npwp' => 'mimes:jpeg,bmp,png,svg,pdf',
-            // 'submission_form' => 'mimes:jpeg,bmp,png,svg,pdf',
-            // 'kesehatan' => 'mimes:jpeg,bmp,png,svg,pdf',
-            // 'ketenagakerjaan' => 'mimes:jpeg,bmp,png,svg,pdf',
+            'cv' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            'ktp' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            'ijazah' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            'kk' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            'npwp' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            // 'submission_form' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            // 'kesehatan' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
+            // 'ketenagakerjaan' => 'mimes:jpg,jpeg,bmp,png,svg,pdf',
         ];
     }
 
