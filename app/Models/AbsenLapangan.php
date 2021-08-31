@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Keterangan extends Model
+class AbsenLapangan extends Model
 {
     use CrudTrait;
 
@@ -61,15 +61,4 @@ class Keterangan extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
-    public function setUploadDataAttribute($value)
-    {
-        $attribute_name = "upload_data";
-        $disk = "public";
-        $destination_path = "keterangan/upload_data";
-
-        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
-
-    // return $this->attributes[{$attribute_name}]; // uncomment if this is a translatable field
-    }
 }

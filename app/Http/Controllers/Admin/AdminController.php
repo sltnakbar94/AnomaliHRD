@@ -98,10 +98,11 @@ class AdminController extends Controller
         $keterangan = new Keterangan();
         $keterangan->userid = $request->userid;
         $keterangan->date = date("Y-m-d", strtotime(now()));
-        $keterangan->keterangan = "Tugas luar kantor";
+        $keterangan->keterangan = "Absen lapangan";
         $keterangan->status = "Approve";
         $keterangan->keterangan_tambahan = $request->keterangan_tambahan;
-        $keterangan->keterangan_tambahan = $request->keterangan_tambahan;
+        $keterangan->tujuan = $request->tujuan;
+        $keterangan->hasil = $request->hasil;
         $keterangan->lat = $request->lat;
         $keterangan->lng = $request->lng;
         if($request->hasFile('upload_data')) {

@@ -15,7 +15,7 @@
                         <input type="hidden" value="{{ backpack_user()->Employee->userid }}" name="userid">
                         <div> {{-- bila diminta lat&lng untuk di hidden tolong tambahkan --> style="display: none" <-- pada div dikiri --}}
                             <div class="form-group">
-                                <label class="control-label" for="lat">Latitude</label>
+                                <label class="control-label" for="lat">Latitude</label><span>*</span>
 
                                 <div>
                                     <input type="text" class="form-control" name="lat" id="lat" value="{{ old('lat') }}" readonly="readonly" required>
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="lng">Longitude</label>
+                                <label class="control-label" for="lng">Longitude</label><span>*</span>
 
                                 <div>
                                     <input type="text" class="form-control" name="lng" id="lng" value="{{ old('lng') }}" readonly="readonly" required>
@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="keterangan_tambahan">Kegiatan</label>
+                            <label class="control-label" for="keterangan_tambahan">Kegiatan</label><span>*</span>
 
                             <div>
                                 <input type="text" class="form-control{{ $errors->has('keterangan_tambahan') ? ' is-invalid' : '' }}" name="keterangan_tambahan" id="keterangan_tambahan" value="{{ old('keterangan_tambahan') }}" required>
@@ -45,7 +45,28 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="upload_data">Foto</label>
+                            <label class="control-label" for="tujuan">Tujuan</label>
+
+                            <div>
+                                <input type="text" class="form-control{{ $errors->has('tujuan') ? ' is-invalid' : '' }}" name="tujuan" id="tujuan" value="{{ old('tujuan') }}">
+                                @if ($errors->has('tujuan'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('tujuan') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="hasil">Hasil Kegiatan</label><span>*</span>
+
+                            <div>
+                                <textarea name="hasil" class="form-control" id="hasil" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="upload_data">Foto</label><span>*</span>
 
                             <div>
                                 <input type="file" name="upload_data" accept="image/*" capture="user" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" required>

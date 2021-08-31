@@ -79,7 +79,7 @@
                                     <td>Upload Bukti</td>
                                     <td>
                                         @if (!empty(@$crud->entry->upload_data))
-                                            <iframe src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:1400px; height:600px;" frameborder="0"></iframe><br>
+                                            <iframe id="Iframe1" src="{{asset('storage/'.@$crud->entry->upload_data)}}" style="width:600px; height:600px;" frameborder="0"></iframe><br>
                                         @else
                                             <img src="{{asset('icon/no_data.jpg')}}" alt="No Data" width="400" height="400"><br>
                                         @endif
@@ -149,4 +149,9 @@
 @section('after_scripts')
 	<script src="{{ asset('packages/backpack/crud/js/crud.js') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#Iframe1").contents().find('img').css({'width':'100%', 'height':'90%'});
+        });
+    </script>
 @endsection
